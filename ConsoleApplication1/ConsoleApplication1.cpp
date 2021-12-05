@@ -1,5 +1,6 @@
 ﻿//PREPEND BEGIN
 #include <iostream>
+#include<time.h>
 #include <string>
 //PREPEND END
 using namespace std;
@@ -116,6 +117,34 @@ public:
 		}
 
 	}
+	int weekday_int(int  year, char *month, int day) {
+		int m = month_num(month);
+		if (m < 3) {
+			year -= 1;
+			m += 12;
+		}
+		int c = int(year / 100);
+		int y = year - 100 * c;
+		int w = int(c / 4) - 2 * c + y + int(y / 4) + (26 * (m + 1) / 10) + day - 1;
+		w = (w % 7 + 7) % 7;
+		//cout << w << ' ' << y << ' ' << m << ' ' << day << ' ' << endl;
+		return w;
+	}
+
+	int weekday_int_foryear(int  year, int month, int day) {
+		int m = month;
+		if (m < 3) {
+			year -= 1;
+			m += 12;
+		}
+		int c = int(year / 100);
+		int y = year - 100 * c;
+		int w = int(c / 4) - 2 * c + y + int(y / 4) + (26 * (m + 1) / 10) + day - 1;
+		w = (w % 7 + 7) % 7;
+		//cout << w << ' ' << y << ' ' << m << ' ' << day << ' ' << endl;
+		return w;
+	}
+
 
 	bool check_leapyear(int year) {
 		// 0代表不是闰年 其他代表是闰年
@@ -165,21 +194,12 @@ public:
 		cout << "│ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│" << endl;
 		cout << "├────┼────┼────┼────┼────┼────┼────┤" << endl;
 
-		string week_firstday = weekday(this->year_G, this->month_G, 1);
+		//string week_firstday = weekday(this->year_G, this->month_G, 1);
 		bool leapyear = check_leapyear(this->year_G);
 		int numOfmonth = month_num(this->month_G);
 		int endDay = 0;
 		//用int输出第一天是周几
-		int m = month_num(this->month_G);
-		int year = this->year_G;
-		if (m < 3) {
-			year -= 1;
-			m += 12;
-		}
-		int c = int(year / 100);
-		int y = year - 100 * c;
-		int w = int(c / 4) - 2 * c + y + int(y / 4) + (26 * (m + 1) / 10) + 1 - 1;
-		w = (w % 7 + 7) % 7;
+		int w = weekday_int(this->year_G, this->month_G, 1);
 
 		// 输出这个月的一共有多少天
 		switch (numOfmonth) {
@@ -255,13 +275,698 @@ public:
 
 	}
 
+	void print_year() {
 
 
 
 
-	/*		print the calendar of the current monthin
-		Gregorian form at .*/
-	void print_year();
+
+#pragma region 1到3月
+		cout << "Jan                                  Feb                                  Mar                                 " << endl;
+		cout << "┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐" << endl;
+		cout << "│ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│" << endl;
+		cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+		int endDay_1 = 31;  //endday_1 代表1月几天
+		int endDay_2 = 0;
+		if (check_leapyear(this->year_G)) {
+			endDay_2 = 29;
+		}
+		else {
+			endDay_2 = 28;
+		}
+		int endDay_3 = 31;
+
+		int i_f = 0;
+		int i_s = 0;
+		int i_t = 0;
+		for (int i = 0; i < 126;) {
+
+			/*char* mm[12][10] = { "Jau", };*/
+
+			int w_f = weekday_int_foryear(this->year_G, 1, 1);
+			int w_s = weekday_int_foryear(this->year_G, 2, 1);
+			int w_t = weekday_int_foryear(this->year_G, 3, 1);
+
+			// 第一个月
+
+			if (i < 21) {
+				cout << "│";
+				for (int j = 0; j < w_f; j++) {
+
+					cout << zifu[32 - 1];
+					i++;
+
+				}
+			}
+
+			while (i_f < 42 - w_f) {
+				if ((i_f + w_f + 1) % 7 == 0) {
+					if (i_f >= endDay_1) {
+						cout << zifu[32 - 1];
+						i++;
+						cout << ' ';
+					}
+					else {
+						cout << zifu[i_f];
+						i++;
+						cout << ' ';
+					}
+					i_f++;
+					break;
+				}
+				else
+				{
+					if (i_f >= endDay_1) {
+						cout << zifu[32 - 1];
+						i++;
+					}
+					else
+					{
+						cout << zifu[i_f];
+						i++;
+					}
+				}
+				i_f++;
+			}
+
+			//第二个月
+			cout << "│";
+			if (i < 21) {
+
+				for (int j = 0; j < w_s; j++) {
+
+					cout << zifu[32 - 1];
+					i++;
+
+				}
+			}
+
+			while (i_s < 42 - w_s) {
+
+				if ((i_s + w_s + 1) % 7 == 0) {
+					if (i_s >= endDay_2) {
+						cout << zifu[32 - 1];
+						i++;
+						cout << ' ';
+					}
+					else {
+						cout << zifu[i_s];
+						i++;
+						cout << ' ';
+					}
+					i_s++;
+					break;
+				}
+				else
+				{
+					if (i_s >= endDay_2) {
+						cout << zifu[32 - 1];
+						i++;
+					}
+					else
+					{
+						cout << zifu[i_s];
+						i++;
+					}
+				}
+				i_s++;
+			}
+
+			//第三个月  	
+			cout << "│";
+			if (i < 21) {
+
+				for (int j = 0; j < w_t; j++) {
+
+					cout << zifu[32 - 1];
+					i++;
+				}
+			}
+
+			while (i_t < 42 - w_t) {
+
+				if ((i_t + w_t + 1) % 7 == 0) {
+					if (i_t >= endDay_3) {
+						cout << zifu[32 - 1];
+						i++;
+					}
+					else {
+						cout << zifu[i_t];
+						i++;
+					}
+					cout << endl;
+					if (i == 126) {
+						cout << "└────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘" << endl;
+						break;
+					}
+
+					cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+					cout << "│";
+					i_t++;
+					break;
+				}
+				else
+				{
+					if (i_t >= endDay_3) {
+						cout << zifu[32 - 1];
+						i++;
+					}
+					else
+					{
+						cout << zifu[i_t];
+						i++;
+					}
+				}
+				i_t++;
+			}
+
+
+
+
+
+
+
+		}
+
+
+#pragma endregion
+
+
+
+
+
+
+
+		cout << "Apr                                  May                                  Jun                                 " << endl;
+		cout << "┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐" << endl;
+		cout << "│ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│" << endl;
+		cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+		int endDay_4 = 30;  //endday_1 代表1月几天
+		int endDay_5 = 31;
+		int endDay_6 = 30;
+
+
+		i_f = 0;
+		i_s = 0;
+		i_t = 0;
+		for (int i = 0; i < 126;) {
+
+			/*char* mm[12][10] = { "Jau", };*/
+
+			int w_f = weekday_int_foryear(this->year_G, 4, 1);
+			int w_s = weekday_int_foryear(this->year_G, 5, 1);
+			int w_t = weekday_int_foryear(this->year_G, 6, 1);
+
+			// 第一个月
+
+			if (i < 21) {
+				cout << "│";
+				for (int j = 0; j < w_f; j++) {
+
+					cout << zifu[32 - 1];
+					i++;
+
+				}
+			}
+
+			while (i_f < 42 - w_f) {
+				if ((i_f + w_f + 1) % 7 == 0) {
+					if (i_f >= endDay_4) {
+						cout << zifu[32 - 1];
+						i++;
+						cout << ' ';
+					}
+					else {
+						cout << zifu[i_f];
+						i++;
+						cout << ' ';
+					}
+					i_f++;
+					break;
+				}
+				else
+				{
+					if (i_f >= endDay_4) {
+						cout << zifu[32 - 1];
+						i++;
+					}
+					else
+					{
+						cout << zifu[i_f];
+						i++;
+					}
+				}
+				i_f++;
+			}
+
+			//第二个月
+			cout << "│";
+			if (i < 21) {
+
+				for (int j = 0; j < w_s; j++) {
+
+					cout << zifu[32 - 1];
+					i++;
+
+				}
+			}
+
+			while (i_s < 42 - w_s) {
+
+				if ((i_s + w_s + 1) % 7 == 0) {
+					if (i_s >= endDay_5) {
+						cout << zifu[32 - 1];
+						i++;
+						cout << ' ';
+					}
+					else {
+						cout << zifu[i_s];
+						i++;
+						cout << ' ';
+					}
+					i_s++;
+					break;
+				}
+				else
+				{
+					if (i_s >= endDay_5) {
+						cout << zifu[32 - 1];
+						i++;
+					}
+					else
+					{
+						cout << zifu[i_s];
+						i++;
+					}
+				}
+				i_s++;
+			}
+
+			//第三个月  	
+			cout << "│";
+			if (i < 21) {
+
+				for (int j = 0; j < w_t; j++) {
+
+					cout << zifu[32 - 1];
+					i++;
+				}
+			}
+
+			while (i_t < 42 - w_t) {
+
+				if ((i_t + w_t + 1) % 7 == 0) {
+					if (i_t >= endDay_6) {
+						cout << zifu[32 - 1];
+						i++;
+					}
+					else {
+						cout << zifu[i_t];
+						i++;
+					}
+					cout << endl;
+					if (i == 126) {
+						cout << "└────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘" << endl;
+						break;
+					}
+
+					cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+					cout << "│";
+					i_t++;
+					break;
+				}
+				else
+				{
+					if (i_t >= endDay_6) {
+						cout << zifu[32 - 1];
+						i++;
+					}
+					else
+					{
+						cout << zifu[i_t];
+						i++;
+					}
+				}
+				i_t++;
+			}
+
+
+
+
+
+
+
+		}
+
+
+
+
+
+
+
+#pragma region 7到9月
+		cout << "Jul                                  Aug                                  Sep                                 " << endl;
+		cout << "┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐" << endl;
+		cout << "│ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│" << endl;
+		cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+		endDay_4 = 31;  //endday_1 代表1月几天
+		endDay_5 = 31;
+		endDay_6 = 30;
+
+
+		i_f = 0;
+		i_s = 0;
+		i_t = 0;
+		for (int i = 0; i < 126;) {
+
+			/*char* mm[12][10] = { "Jau", };*/
+
+			int w_f = weekday_int_foryear(this->year_G, 7, 1);
+			int w_s = weekday_int_foryear(this->year_G, 8, 1);
+			int w_t = weekday_int_foryear(this->year_G, 9, 1);
+
+			// 第一个月
+
+			if (i < 21) {
+				cout << "│";
+				for (int j = 0; j < w_f; j++) {
+
+					cout << zifu[32 - 1];
+					i++;
+
+				}
+			}
+
+			while (i_f < 42 - w_f) {
+				if ((i_f + w_f + 1) % 7 == 0) {
+					if (i_f >= endDay_4) {
+						cout << zifu[32 - 1];
+						i++;
+						cout << ' ';
+					}
+					else {
+						cout << zifu[i_f];
+						i++;
+						cout << ' ';
+					}
+					i_f++;
+					break;
+				}
+				else
+				{
+					if (i_f >= endDay_4) {
+						cout << zifu[32 - 1];
+						i++;
+					}
+					else
+					{
+						cout << zifu[i_f];
+						i++;
+					}
+				}
+				i_f++;
+			}
+
+			//第二个月
+			cout << "│";
+			if (i < 21) {
+
+				for (int j = 0; j < w_s; j++) {
+
+					cout << zifu[32 - 1];
+					i++;
+
+				}
+			}
+
+			while (i_s < 42 - w_s) {
+
+				if ((i_s + w_s + 1) % 7 == 0) {
+					if (i_s >= endDay_5) {
+						cout << zifu[32 - 1];
+						i++;
+						cout << ' ';
+					}
+					else {
+						cout << zifu[i_s];
+						i++;
+						cout << ' ';
+					}
+					i_s++;
+					break;
+				}
+				else
+				{
+					if (i_s >= endDay_5) {
+						cout << zifu[32 - 1];
+						i++;
+					}
+					else
+					{
+						cout << zifu[i_s];
+						i++;
+					}
+				}
+				i_s++;
+			}
+
+			//第三个月  	
+			cout << "│";
+			if (i < 21) {
+
+				for (int j = 0; j < w_t; j++) {
+
+					cout << zifu[32 - 1];
+					i++;
+				}
+			}
+
+			while (i_t < 42 - w_t) {
+
+				if ((i_t + w_t + 1) % 7 == 0) {
+					if (i_t >= endDay_6) {
+						cout << zifu[32 - 1];
+						i++;
+					}
+					else {
+						cout << zifu[i_t];
+						i++;
+					}
+					cout << endl;
+					if (i == 126) {
+						cout << "└────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘" << endl;
+						break;
+					}
+
+					cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+					cout << "│";
+					i_t++;
+					break;
+				}
+				else
+				{
+					if (i_t >= endDay_6) {
+						cout << zifu[32 - 1];
+						i++;
+					}
+					else
+					{
+						cout << zifu[i_t];
+						i++;
+					}
+				}
+				i_t++;
+			}
+
+
+
+
+
+
+
+		}
+#pragma endregion
+
+
+#pragma region 10到12月
+		cout << "Jul                                  Aug                                  Sep                                 " << endl;
+		cout << "┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐" << endl;
+		cout << "│ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│" << endl;
+		cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+		endDay_4 = 31;  //endday_1 代表1月几天
+		endDay_5 = 30;
+		endDay_6 = 31;
+
+
+		i_f = 0;
+		i_s = 0;
+		i_t = 0;
+		for (int i = 0; i < 126;) {
+
+			/*char* mm[12][10] = { "Jau", };*/
+
+			int w_f = weekday_int_foryear(this->year_G, 10, 1);
+			int w_s = weekday_int_foryear(this->year_G, 11, 1);
+			int w_t = weekday_int_foryear(this->year_G, 12, 1);
+
+			// 第一个月
+
+			if (i < 21) {
+				cout << "│";
+				for (int j = 0; j < w_f; j++) {
+
+					cout << zifu[32 - 1];
+					i++;
+
+				}
+			}
+
+			while (i_f < 42 - w_f) {
+				if ((i_f + w_f + 1) % 7 == 0) {
+					if (i_f >= endDay_4) {
+						cout << zifu[32 - 1];
+						i++;
+						cout << ' ';
+					}
+					else {
+						cout << zifu[i_f];
+						i++;
+						cout << ' ';
+					}
+					i_f++;
+					break;
+				}
+				else
+				{
+					if (i_f >= endDay_4) {
+						cout << zifu[32 - 1];
+						i++;
+					}
+					else
+					{
+						cout << zifu[i_f];
+						i++;
+					}
+				}
+				i_f++;
+			}
+
+			//第二个月
+			cout << "│";
+			if (i < 21) {
+
+				for (int j = 0; j < w_s; j++) {
+
+					cout << zifu[32 - 1];
+					i++;
+
+				}
+			}
+
+			while (i_s < 42 - w_s) {
+
+				if ((i_s + w_s + 1) % 7 == 0) {
+					if (i_s >= endDay_5) {
+						cout << zifu[32 - 1];
+						i++;
+						cout << ' ';
+					}
+					else {
+						cout << zifu[i_s];
+						i++;
+						cout << ' ';
+					}
+					i_s++;
+					break;
+				}
+				else
+				{
+					if (i_s >= endDay_5) {
+						cout << zifu[32 - 1];
+						i++;
+					}
+					else
+					{
+						cout << zifu[i_s];
+						i++;
+					}
+				}
+				i_s++;
+			}
+
+			//第三个月  	
+			cout << "│";
+			if (i < 21) {
+
+				for (int j = 0; j < w_t; j++) {
+
+					cout << zifu[32 - 1];
+					i++;
+				}
+			}
+
+			while (i_t < 42 - w_t) {
+
+				if ((i_t + w_t + 1) % 7 == 0) {
+					if (i_t >= endDay_6) {
+						cout << zifu[32 - 1];
+						i++;
+					}
+					else {
+						cout << zifu[i_t];
+						i++;
+					}
+					cout << endl;
+					if (i == 126) {
+						cout << "└────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘" << endl;
+						break;
+					}
+
+					cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+					cout << "│";
+					i_t++;
+					break;
+				}
+				else
+				{
+					if (i_t >= endDay_6) {
+						cout << zifu[32 - 1];
+						i++;
+					}
+					else
+					{
+						cout << zifu[i_t];
+						i++;
+					}
+				}
+				i_t++;
+			}
+
+
+
+
+
+
+
+		}
+#pragma endregion
+
+
+
+
+
+
+
+
+	}
+
+
+
+
+
+
+
+	
 	//print the calendar of the current year in
 	//Gregorian format
 	bool go_to(int year, char* month, int day) {
