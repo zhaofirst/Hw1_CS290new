@@ -12,7 +12,6 @@ public:
 	int year_G;
 	char* month_G;
 	int day_G;
-	
 	const string zifu[32] = {
 " 01 │", " 02 │" ," 03 │",	" 04 │", " 05 │" ," 06 │",	" 07 │", " 08 │" ," 09 │",
 " 10 │", " 11 │", " 12 │" ," 13 │",	" 14 │", " 15 │" ," 16 │",	" 17 │", " 18 │" ," 19 │",
@@ -36,26 +35,17 @@ public:
 
 		switch (switch_month_First) {
 		case 'J':
-			switch (switch_month_Second)
-			{
-			case 'a':
-				return 1;
+			switch (switch_month_Third) {
 			case 'u':
-				switch (switch_month_Third) {
-
-				case 'n':
-					return 6;
-				case 'l':
-					return 7;
-				default:
-					return 0;
-					break;
-				}
+				return 1;
+			case 'n':
+				return 6;
+			case 'l':
+				return 7;
 			default:
 				return 0;
 				break;
 			}
-
 		case 'F':
 			return 2;
 		case 'M':
@@ -72,7 +62,7 @@ public:
 			switch (switch_month_Third) {
 			case 'r':
 				return 4;
-			case 'g':
+			case 'y':
 				return 8;
 			default:
 				return 0;
@@ -93,9 +83,39 @@ public:
 
 		}
 	}
-	string month_string(int num) {
-		string mm[12] = { "Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec" };
-		return mm[num];
+
+	string weekday(int  year, char *month, int day) {
+		int m = month_num(month);
+
+		if (m < 3) {
+			year -= 1;
+			m += 12;
+		}
+		int c = int(year / 100);
+		int y = year - 100 * c;
+		int w = int(c / 4) - 2 * c + y + int(y / 4) + (26 * (m + 1) / 10) + day - 1;
+		w = (w % 7 + 7) % 7;
+		//cout << w << ' ' << y << ' ' << m << ' ' << day << ' ' << endl;
+		switch (w) {
+		case 0:
+			return "Sun";
+		case 1:
+			return "Mon";
+		case 2:
+			return "Tues";
+		case 3:
+			return "Wed";
+		case 4:
+			return "Thur";
+		case 5:
+			return "Fri";
+		case 6:
+			return "Sat";
+		default:
+			return 0;
+			break;
+		}
+
 	}
 	int weekday_int(int  year, char *month, int day) {
 		int m = month_num(month);
@@ -103,20 +123,12 @@ public:
 			year -= 1;
 			m += 12;
 		}
-		int result;
-		//int w;
 		int c = int(year / 100);
 		int y = year - 100 * c;
-		if (year > 4000) {
-			result = int(c / 4) - 2 * c + y + int(y / 4) + (26 * (m + 1) / 10) - int(year / 4000) + day - 1;
-			result = (result % 7 + 7) % 7;
-		}
-		else {
-			result = int(c / 4) - 2 * c + y + int(y / 4) + (26 * (m + 1) / 10) + day - 1;
-			result = (result % 7 + 7) % 7;
-		}
+		int w = int(c / 4) - 2 * c + y + int(y / 4) + (26 * (m + 1) / 10) + day - 1;
+		w = (w % 7 + 7) % 7;
 		//cout << w << ' ' << y << ' ' << m << ' ' << day << ' ' << endl;
-		return result;
+		return w;
 	}
 
 	int weekday_int_foryear(int  year, int month, int day) {
@@ -125,20 +137,12 @@ public:
 			year -= 1;
 			m += 12;
 		}
-		int result;
-		//int w;
 		int c = int(year / 100);
 		int y = year - 100 * c;
-		if (year > 4000) {
-			result = int(c / 4) - 2 * c + y + int(y / 4) + (26 * (m + 1) / 10) - int(year / 4000) + day - 1;
-			result = (result % 7 + 7) % 7;
-		}
-		else {
-			result = int(c / 4) - 2 * c + y + int(y / 4) + (26 * (m + 1) / 10) + day - 1;
-			result = (result % 7 + 7) % 7;
-		}
+		int w = int(c / 4) - 2 * c + y + int(y / 4) + (26 * (m + 1) / 10) + day - 1;
+		w = (w % 7 + 7) % 7;
 		//cout << w << ' ' << y << ' ' << m << ' ' << day << ' ' << endl;
-		return result;
+		return w;
 	}
 
 
@@ -180,13 +184,12 @@ public:
 	void print_today() {
 		//string p_month[3];
 
-		//cout << year_G << ' ' << *month_G << *(month_G + 1) << *(month_G + 2) << ' ' << day_G << endl;
-		cout << this->year_G << ' ' << this->month_G  << ' ' << this->day_G << endl;
+		cout << year_G << ' ' << *month_G << *(month_G + 1) << *(month_G + 2) << ' ' << day_G << endl;
 	}
 
 	//print the date of today in Gregorian format by "yearmonthnday"
 	void print_month() {
-		cout << *month_G << *(month_G + 1) << *(month_G + 2) <<"                                 "<< endl;
+		cout << *month_G << *(month_G + 1) << *(month_G + 2) << endl;
 		cout << "┌────┬────┬────┬────┬────┬────┬────┐" << endl;
 		cout << "│ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│" << endl;
 		cout << "├────┼────┼────┼────┼────┼────┼────┤" << endl;
@@ -270,9 +273,6 @@ public:
 		cout << zifu[31] << endl;
 		cout << "└────┴────┴────┴────┴────┴────┴────┘" << endl;
 
-
-
-
 	}
 
 	void print_year() {
@@ -280,8 +280,9 @@ public:
 
 
 
+#pragma region _1到3月
 
-#pragma region 1到3月
+
 		cout << "Jan                                  Feb                                  Mar                                 " << endl;
 		cout << "┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐" << endl;
 		cout << "│ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│" << endl;
@@ -449,11 +450,14 @@ public:
 		}
 
 
+
 #pragma endregion
 
 
 
 
+
+#pragma region 4到6月
 
 
 
@@ -619,6 +623,8 @@ public:
 		}
 
 
+
+#pragma endregion
 
 
 
@@ -961,353 +967,36 @@ public:
 	}
 
 
-	bool go_to(int year, char* month, int day) {
-
-		if (year_G <= 999999 && year_G >= 1) {
-			if (day_G <= 31 && day_G >= 1) {
-				if (month_num(month_G) <= 12 && month_num(month_G) >= 1) {
-					year_G = year;
-					month_G = month;
-					day_G = day;
-					return true;
-				}
-				else {
-					return false;
-				}
-
-			}
-			else {
-				return false;
-			}
-		}
-		else
-		{
-			return false;
-		}
-	}
-
-	bool  pass_day(int num_days) {
-		char *month_char[] = { (char*)"Jan", (char*)"Feb", (char*)"Mar", (char*)"Apr", (char*)"May", (char*)"Jun", (char*)"Jul", (char*)"Aug", (char*)"Sep", (char*)"Oct", (char*)"Nov", (char*)"Dec" };
-		bool leapyear = check_leapyear(this->year_G);
-		int numOfmonth = month_num(this->month_G);
-		int endDay = 0;
-		// 输出这个月的一共有多少天
-		switch (numOfmonth) {
-		case 1:
-			endDay = 31;
-			break;
-		case 3:
-			endDay = 31;
-			break;
-		case 5:
-			endDay = 31;
-			break;
-		case 7:
-			endDay = 31;
-			break;
-		case 8:
-			endDay = 31;
-			break;
-		case 10:
-			endDay = 31;
-			break;
-		case 12:
-			endDay = 31;
-			break;
-		case 2:
-			if (leapyear) {
-				endDay = 29;
-			}
-			else {
-				endDay = 28;
-			}
-			break;
-		default:
-			endDay = 30;
-			break;
-		}
-		int n = num_days;
-
-		/// 保留原始数据
-
-		int or_y = year_G;
-		int or_d = day_G;
-		int or_m = numOfmonth;
-		/// 结束保留
-
-
-		int y, m, d;
-		int mon[13] = { 31,31,28,31,30,31,30,31,31,30,31,30,31 };
-		y = year_G;
-		m = numOfmonth;
-		d = day_G;
-
-
-		if (n > 0) {
-			n += d;
-			if (n <= endDay) {
-				day_G = n;
-			}
-			else {
-				do
-				{
-					bool leepyear = check_leapyear(y);
-					if (m == 2 && leepyear) {
-						n -= 29;
-					}
-					else {
-						n -= mon[m];
-
-
-					}
-					if (++m > 12) {
-						m = 1; y++;
-					}
-
-
-					/*mon[2] += leepyear;*/
-
-
-				} while (n > mon[m]);
-				year_G = y;
-				month_G = (char*)month_char[m - 1];
-				day_G = n;
-			}
-		}
-		else if (n == 0) {
-			//cout << year_G << ' ' << *month_G << *(month_G + 1) << *(month_G + 2) << ' ' << day_G << ' ' << endl;
-			return true;
-		}
-		else {
-			if( int temp = n + d >= 1) {
-				day_G = n + d;
-			}
-			else
-			{
-				n += d;
-				while( -n >=mon[m-1])
-				{
-					if (--m == 0) {
-						m = 12;
-						--y;
-					}
-					bool leepyear = check_leapyear(y);
-					if (m == 2 && leepyear) {
-						n += 29;
-					}
-					else
-					{
-						n += mon[m];
-					}
-
-				}
-				if (--m == 0) {
-					m = 12;
-					--y;
-				}
-				n += mon[m];
-				month_G = (char*)month_char[m-1];
-				year_G = y;
-				day_G = n;
-
-			}
-		}
-
-		if (year_G <= 999999 && year_G >= 1) {
-			if (day_G <= 31 && day_G >= 1) {
-				if (month_num(month_G) <= 12 && month_num(month_G) >= 1) {
-					//cout << year_G << ' ' << *month_G << *(month_G + 1) << *(month_G + 2) << ' ' << day_G << ' ' << endl;
-					//cout << endl;*/
-					return true;
-				}
-				else {
-					year_G = or_y;
-					day_G = or_d;
-
-					month_G = (char*)month_char[or_m - 1];
-
-					return false;
-				}
-
-			}
-			else {
-				year_G = or_y;
-				day_G = or_d;
-
-				month_G = (char*)month_char[or_m - 1];
-
-				return false;
-			}
-		}
-		else
-		{
-			year_G = or_y;
-			day_G = or_d;
-			month_G = (char*)month_char[or_m - 1];
-
-			return false;
-		}
 
 
 
-	}
 
 
-	bool pass_month(int num_months) {
-		char *month_char[] = { (char*)"Jan", (char*)"Feb", (char*)"Mar", (char*)"Apr", (char*)"May", (char*)"Jun", (char*)"Jul", (char*)"Aug", (char*)"Sep", (char*)"Oct", (char*)"Nov", (char*)"Dec" };
-		int numOfmonth = month_num(this->month_G);
-		int n = num_months;
-
-		/// 保留原始数据
-		int or_y = year_G;
-		int or_d = day_G;
-		int or_m = numOfmonth;
-		/// 结束保留
-
-		int m = numOfmonth;
-		m += n;
-		if (m > 0) {
-
-			int plus_year = int(m / 12);
-			if (m % 12 == 0) {
-				year_G -= 1;
-			}
-			year_G += plus_year;
-
-			m -= plus_year * 12;
-			if (m == 0) {
-				m = 12;
-			}
-
-
-
-			month_G = (char*)month_char[m - 1];
-
-			day_G = 1;
-
-		}
-
-		else
-		{
-			year_G -= 1;
-			int dec_year = int(m / 12);
-			year_G += dec_year;
-			m -= dec_year * 12;
-			m += 12;
-			month_G = (char*)month_char[m - 1];
-			day_G = 1;
-
-		}
-
-
-		if (year_G <= 999999 && year_G >= 1) {
-			if (day_G <= 31 && day_G >= 1) {
-				if (month_num(month_G) <= 12 && month_num(month_G) >= 1) {
-
-					//cout << year_G << ' ' << *month_G << *(month_G + 1) << *(month_G + 2) << ' ' << day_G << ' ' << endl;
-
-					return true;
-				}
-				else {
-					year_G = or_y;
-					day_G = or_d;
-
-					month_G = (char*)month_char[or_m - 1];
-
-					return false;
-				}
-
-			}
-			else {
-				year_G = or_y;
-				day_G = or_d;
-
-				month_G = (char*)month_char[or_m - 1];
-				return false;
-			}
-		}
-		else
-		{
-			year_G = or_y;
-			day_G = or_d;
-			month_G = (char*)month_char[or_m - 1];
 	
-			return false;
+	//print the calendar of the current year in
+	//Gregorian format
+	bool go_to(int year, char* month, int day) {
+		if (year <= 999999 & year >= 1) {
+			if (day <= 31 & day >= 1) {
+				year = year;
+				return true;
+			}
+			else {
+				return false;
+			}
 		}
-
-
-
-
-
-
 	}
+	//go to the given day.Return true if the day in the range Jan 1, 1 toDec 31, 999999. Else false .
+	bool  pass_day(int num_days);
+		//pass the given number of days from todayReturn true if that day is in the rangeElse roll back to the origin day and ret
+		//urn false
+	bool pass_month(int num_months);
 	//pass the given number of months from tod
 	//ay .
 	//Return true and slide to the first day of that month if that month is inthe former range .
 	//Else roll back to the origin day and ret
 	//urn false .
-	bool pass_year(int num_years) {
-		char *month_char[] = { (char*)"Jan", (char*)"Feb", (char*)"Mar", (char*)"Apr", (char*)"May", (char*)"Jun", (char*)"Jul", (char*)"Aug", (char*)"Sep", (char*)"Oct", (char*)"Nov", (char*)"Dec" };
-		int numOfmonth = month_num(this->month_G);
-		int n = num_years;
-
-		/// 保留原始数据
-		int or_y = year_G;
-		int or_d = day_G;
-		int or_m = numOfmonth;
-		/// 结束保留
-
-
-		year_G += n;
-		numOfmonth = 1;
-
-		month_G = (char*)month_char[numOfmonth - 1];
-		day_G = 1;
-
-
-		if (year_G <= 999999 && year_G >= 1) {
-			if (day_G <= 31 && day_G >= 1) {
-				if (month_num(month_G) <= 12 && month_num(month_G) >= 1) {
-			
-					//cout << year_G << ' ' << *month_G << *(month_G + 1) << *(month_G + 2) << ' ' << day_G << ' ' << endl;
-					return true;
-				}
-				else {
-					year_G = or_y;
-					day_G = or_d;
-
-
-					month_G = (char*)month_char[or_m - 1];
-
-					return false;
-				}
-
-			}
-			else {
-				year_G = or_y;
-				day_G = or_d;
-
-
-				month_G = (char*)month_char[or_m - 1];
-
-				return false;
-			}
-		}
-		else
-		{
-			year_G = or_y;
-			day_G = or_d;
-			month_G = (char*)month_char[or_m - 1];
-
-			//cout << year_G << ' ' << *month_G << *(month_G + 1) << *(month_G + 2) << ' ' << day_G << ' ' << endl;
-
-			return false;
-		}
-
-
-
-
-	}
+	bool pass_year(int num_years);
 	//pass the given number of years from today .
 	//Return true and slide to the first day of th atyear if t hat year is in
 	//the former range .
@@ -1318,12 +1007,6 @@ public:
 
 };
 
-
-
-
-
-
-
 class Shanghaitech :public Gregorian {
 };
 
@@ -1331,7 +1014,7 @@ class Shanghaitech :public Gregorian {
 
 //APPEND BEGIN
 
-
+// Use this main function
 int main()
 {
 	int year, day, n;
@@ -1340,47 +1023,44 @@ int main()
 
 	std::cin >> f;
 	std::cin >> year >> month >> day;
-	//    Shanghaitech date(year, month, day);
-	//    Shanghaitech* S = &date;
-	Gregorian date(year, month, day);
-	Gregorian* G = &date;
-	//    std::cin >> calendar;
+	//Shanghaitech date(year, month, day);
+	//Shanghaitech* S = &date;
+	Gregorian gb(year, month, day);
+	Gregorian *G = &gb;
+	//Gregorian* G = &date;
+	std::cin >> calendar;
 	std::cin >> f;
 	while (!std::cin.eof()) {
 		if (f == "pass_day") {
 			std::cin >> n;
-			G->pass_day(n);
+			if (calendar == "G") G->pass_day(n); else S->pass_day(n);
 		}
 		else if (f == "pass_month") {
 			std::cin >> n;
-			G->pass_month(n);
+			if (calendar == "G") G->pass_month(n); else S->pass_month(n);
 		}
 		else if (f == "pass_year") {
 			std::cin >> n;
-			G->pass_year(n);
+			if (calendar == "G") G->pass_year(n); else S->pass_year(n);
 		}
 		else if (f == "print_today") {
-			G->print_today();
+			if (calendar == "G") G->print_today(); else S->print_today();
 		}
 		else if (f == "print_month") {
-			G->print_month();
+			if (calendar == "G") G->print_month(); else S->print_month();
 		}
 		else if (f == "print_year") {
-			G->print_year();
+			if (calendar == "G") G->print_year(); else S->print_year();
 		}
 		else if (f == "go_to") {
 			std::cin >> year >> month >> day;
-			G->go_to(year, month, day);
+			if (calendar == "G") G->go_to(year, month, day); else S->go_to(year, month, day);
 		}
-		//        calendar = "";
+		calendar = "";
 		f = "";
-		//        std::cin >> calendar;
+		std::cin >> calendar;
 		std::cin >> f;
 	}
 	return 0;
 }
-
-
-
-
-
+//APPEND END
