@@ -1065,9 +1065,6 @@ public:
 					}
 
 
-					/*mon[2] += leepyear;*/
-
-
 				} while (n > mon[m]);
 				year_G = y;
 				month_G = (char*)month_char[m - 1];
@@ -1105,7 +1102,14 @@ public:
 					m = 12;
 					--y;
 				}
-				n += mon[m];
+				bool leepyear = check_leapyear(y);
+				if (m == 2 && leepyear) {
+					n += 29;
+				}
+				else {
+					n += mon[m];
+				}
+
 				month_G = (char*)month_char[m-1];
 				year_G = y;
 				day_G = n;
@@ -1113,31 +1117,9 @@ public:
 			}
 		}
 
+
 		if (year_G <= 999999 && year_G >= 1) {
-			if (day_G <= 31 && day_G >= 1) {
-				if (month_num(month_G) <= 12 && month_num(month_G) >= 1) {
-					//cout << year_G << ' ' << *month_G << *(month_G + 1) << *(month_G + 2) << ' ' << day_G << ' ' << endl;
-					//cout << endl;*/
-					return true;
-				}
-				else {
-					year_G = or_y;
-					day_G = or_d;
-
-					month_G = (char*)month_char[or_m - 1];
-
-					return false;
-				}
-
-			}
-			else {
-				year_G = or_y;
-				day_G = or_d;
-
-				month_G = (char*)month_char[or_m - 1];
-
-				return false;
-			}
+			return true;
 		}
 		else
 		{
@@ -1145,8 +1127,11 @@ public:
 			day_G = or_d;
 			month_G = (char*)month_char[or_m - 1];
 
+			//cout << year_G << ' ' << *month_G << *(month_G + 1) << *(month_G + 2) << ' ' << day_G << ' ' << endl;
+
 			return false;
 		}
+
 
 
 
@@ -1200,38 +1185,18 @@ public:
 		}
 
 
+
 		if (year_G <= 999999 && year_G >= 1) {
-			if (day_G <= 31 && day_G >= 1) {
-				if (month_num(month_G) <= 12 && month_num(month_G) >= 1) {
-
-					//cout << year_G << ' ' << *month_G << *(month_G + 1) << *(month_G + 2) << ' ' << day_G << ' ' << endl;
-
-					return true;
-				}
-				else {
-					year_G = or_y;
-					day_G = or_d;
-
-					month_G = (char*)month_char[or_m - 1];
-
-					return false;
-				}
-
-			}
-			else {
-				year_G = or_y;
-				day_G = or_d;
-
-				month_G = (char*)month_char[or_m - 1];
-				return false;
-			}
+			return true;
 		}
 		else
 		{
 			year_G = or_y;
 			day_G = or_d;
 			month_G = (char*)month_char[or_m - 1];
-	
+
+			//cout << year_G << ' ' << *month_G << *(month_G + 1) << *(month_G + 2) << ' ' << day_G << ' ' << endl;
+
 			return false;
 		}
 
@@ -1266,32 +1231,7 @@ public:
 
 
 		if (year_G <= 999999 && year_G >= 1) {
-			if (day_G <= 31 && day_G >= 1) {
-				if (month_num(month_G) <= 12 && month_num(month_G) >= 1) {
-			
-					//cout << year_G << ' ' << *month_G << *(month_G + 1) << *(month_G + 2) << ' ' << day_G << ' ' << endl;
-					return true;
-				}
-				else {
-					year_G = or_y;
-					day_G = or_d;
-
-
-					month_G = (char*)month_char[or_m - 1];
-
-					return false;
-				}
-
-			}
-			else {
-				year_G = or_y;
-				day_G = or_d;
-
-
-				month_G = (char*)month_char[or_m - 1];
-
-				return false;
-			}
+			return true;
 		}
 		else
 		{
