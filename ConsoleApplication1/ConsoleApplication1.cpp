@@ -1268,12 +1268,14 @@ public:
 
 
 
-class Shanghaitech :public Gregorian {
-
+//class Shanghaitech :public Gregorian {
+class Shanghaitech  {
 private:
 	int year_S;
 	char* month_S;
 	int day_S;
+	int baocuo_year = 0;
+	int baocuo_month = 0;
 public:
 
 	/// Variable
@@ -2285,7 +2287,8 @@ public:
 
 
 	/// Function Mine
-
+	
+	//二分法确定在哪个区间，并且返回左值
 	int SH_erfen(int day) {
 		int left = 0;
 		int right = 1001;
@@ -2311,7 +2314,7 @@ public:
 	}
 
 
-
+	//不谈
 	int digit_sum(int x) {
 		int result = 0;
 		int base = 2;
@@ -2332,7 +2335,7 @@ public:
 	int sweekday_int(int year, char *month, int day) {
 
 	}
-	// 计算该月多少天
+	// 计算该月多少天 输入为字符的月份
 	int sendDay(int year, char* month) {
 		int result_endDay = 0;
 
@@ -2355,61 +2358,116 @@ public:
 				}
 			}
 			numOfm++; // 符合真正月份
-
 			bool leep = scheak_leepyear(year);
-			if (leep) {
-				int leep_m = 0;
-				int sy = digit_sum(year);
-				int temp = year - sy;
-				leep_m = temp % 9 + 1;
-				if (numOfm > leep_m) {
-					numOfm++;
-				}
-				result_endDay = 39 + (10 * year - numOfm) % 3;
-
-			}
-			else
-			{
-				result_endDay = 39 + (10 * year - numOfm) % 3;
-			}
-
+			result_endDay = 39 + (10 * year - numOfm) % 3;
 		}
-
-
 		return result_endDay;
-
-
 	}
-	//计算该年多少天
+
+
+	// 计算该月多少天 输入为int的月份
+	int sint_endDay(int year, int m) { //m为真实月份
+		int result_endDay = 0;
+		int numOfm = m;
+		result_endDay = 39 + (10 * year - numOfm) % 3;
+		return result_endDay;
+	}
+
+	//计算今年过了多少天
 	int SyearDay(int y) {
+		int sum = 0;
 		bool leep = scheak_leepyear(y);
-
+		if (leep) {
+			int m = (y - digit_sum(y))% 9 + 1;
+			int d = 39 + (10 * y - m) % 3;
+			sum = 360 + d;
+		}
+		else
+		{
+			sum = 360;
+		}
+		return sum;
 	}
+
+
 	// 计算在Shanghai日历中1000年以内的天数
 	int Syinei_calday(int y, char* month, int d) {
 		int result = 0;
 		int son_y = int(y / 1000);
+		int syearday = 0;
+		bool leep = scheak_leepyear(y);
+		string mm = month;
+		// 计算从1000*son_y年开始到今年过了多少天
+		for (int i = son_y * 1000+1; i < y; i++) {
+			syearday = SyearDay(i);
+			result += syearday;
+		}
+		// 计算今年过了多少天
+		if ( mm == "SIST") {
+			int m = (y - digit_sum(y)) % 9 + 1;
+			for (int i = 0; i < m; i++) {
+				result += 39 + (10 * y - i) % 3;
+			}
+			result += d;
+			return result;
+		}
+		else
+		{
+			int numOfm = 0;
+			for (int i = 0; i < 9; i++) {
+				if (mm == sm_stirng[i]) {
+					numOfm = i;
+					break;
+				}
+			}
+			numOfm++; // 转化为真实月份
+			if (leep) {
+				int m = (y - digit_sum(y)) % 9 + 1;
+				if (numOfm > m) {
+					for (int i = 0; i < numOfm; i++) {
+						result += 39 + (10 * y - i) % 3;
+					}
+					result += 39+ (10 * y - m) % 3; // 加上闰月的天数
+					result += d;
+					return result;
+				}
+				else {
+					for (int i = 0; i < numOfm; i++) {
+						result += 39 + (10 * y - i) % 3;
+					}
+					result += d;
+					return result;
 
+				}
+
+			}
+		}
 	}
 
 	// 计算在Shanghai日历中的总共天数
-	int Scalday(int y, char* month, int d) {
+	int ScalTotalday(int y, char* month, int d) {
 		int result = 0;
 		int son_y = int(y / 1000);
 		if (son_y == 0) {
-			//result = 
+			result += Syinei_calday(y, month, d);
+			return result;
 		}
 		else if (son_y > 1000) 
 		{
 			result += S_day[1000];
-
+			result += Syinei_calday(y, month, d);
+			return result;
 		}
 		else {
 			result += S_day[son_y - 1];
+			result += Syinei_calday(y, month, d);
+			return result;
 		}
 		
 	}
 
+
+	//判断是不是闰年
 	bool scheak_leepyear(int year) {
 		int sy = digit_sum(year);
 		int temp = year + sy;
@@ -2423,6 +2481,14 @@ public:
 	}
 
 
+	//将计算出的总天数n返回成Shanghai的年月日
+	void DayToShangTechdate(int n) {
+		int thouYearLeft = SH_erfen(n); // 返回的是 一年的最后一天，没有check过
+		year_S = thouYearLeft;
+		int day_remain = n - S_day[thouYearLeft];
+		pass_day(day_remain);
+	}
+
 
 
 	/// end Mine
@@ -2431,7 +2497,8 @@ public:
 
 	/// Function HW
 
-	Shanghaitech(int year, char *month, int day):Gregorian(year, month,  day) {
+	//Shanghaitech(int year, char *month, int day):Gregorian(year, month,  day) {
+	Shanghaitech(int year, char *month, int day){
 		year_S = year;
 		month_S = month;
 		day_S = day;
@@ -2440,134 +2507,355 @@ public:
 
 		cout << this->year_S << ' ' << this->month_S << ' ' << this->day_S << endl;
 	}
-	void print_month() {
-		cout << *month_S << *(month_S + 1) << *(month_S + 2) << "                                 " << endl;
-		cout << "┌────┬────┬────┬────┬────┬────┬────┐" << endl;
-		cout << "│ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│" << endl;
-		cout << "├────┼────┼────┼────┼────┼────┼────┤" << endl;
 
-		//string week_firstday = weekday(this->year_S, this->month_S, 1);
-		bool leapyear = check_leapyear(this->year_S);
-		int numOfmonth = month_num(this->month_S);
-		int endDay = 0;
-		//用int输出第一天是周几
-		int w = weekday_int(this->year_S, this->month_S, 1);
+	bool pass_day(int n) {
+		char *month_char[] = { (char*)"Sist",(char*)"Spst",(char*)"Slst",(char*)"Sem",(char*)"Sca",(char*)"Ims",(char*)"Ihuman",(char*)"Siais",(char*)"Ih",(char*)"SIST" };
+		
+		//int totalDay = ScalTotalday(year_S, month_S, day_S);
+		string sm = month_S;
+		int y = year_S;
+		bool leep = scheak_leepyear(y);
 
-		// 输出这个月的一共有多少天
-		switch (numOfmonth) {
-		case 1:
-			endDay = 31;
-			break;
-		case 3:
-			endDay = 31;
-			break;
-		case 5:
-			endDay = 31;
-			break;
-		case 7:
-			endDay = 31;
-			break;
-		case 8:
-			endDay = 31;
-			break;
-		case 10:
-			endDay = 31;
-			break;
-		case 12:
-			endDay = 31;
-			break;
-		case 2:
-			if (leapyear) {
-				endDay = 29;
-			}
-			else {
-				endDay = 28;
-			}
-			break;
-		default:
-			endDay = 30;
-			break;
-		}
-
-		cout << "│";
-		for (int j = 0; j < w; j++) {
-
-			cout << zifu[32 - 1];
-
-		}
-
-		for (int i = 0; i < 41 - w; i++) { //42代表有42个格子
-			if ((i + w + 1) % 7 == 0) {
-				if (i >= endDay) {
-					cout << zifu[32 - 1];
-				}
-				else {
-					cout << zifu[i];
-
-				}
-				cout << endl;
-				cout << "├────┼────┼────┼────┼────┼────┼────┤" << endl;
-				cout << "│";
-
-			}
-			else
-			{
-				if (i >= endDay) {
-					cout << zifu[32 - 1];
-				}
-				else
-				{
-					cout << zifu[i];
-				}
-
+		///保存原来日期
+		int or_y = year_S;
+		int or_m = 0;
+		for (int i = 0; i < 10; i++) {
+			if (sm == sm_stirng[i]) {
+				or_m = i;
+				break;
 			}
 		}
-		cout << zifu[31] << endl;
-		cout << "└────┴────┴────┴────┴────┴────┴────┘" << endl;
+		int or_d = day_S;
+		///结束原日期
+
+
+
+
+
 
 
 
 
 	}
-	bool pass_day(int n) {
-		char *month_char[] = { (char*)"Sist",(char*)"Spst",(char*)"Slst",(char*)"Sem",(char*)"Sca",(char*)"Ims",(char*)"Ihuman",(char*)"Siais",(char*)"Ih" };
-		bool leapyear = scheak_leepyear(this->year_S);
-		int numOfmonth = month_num(this->month_S);
-		int endDay = 0;
 
+	bool pass_month(int n) {
+		char *month_char[10] = { (char*)"Sist",(char*)"Spst",(char*)"Slst",
+			(char*)"Sem",(char*)"Sca",(char*)"Ims",(char*)"Ihuman",(char*)"Siais",(char*)"Ih" ,(char*)"SIST" };
 
+		string sm = month_S;
+		int y = year_S;
+		bool leep = scheak_leepyear(y);
 
-
-		/// 保留原始数据
+		///保存原来月份
 		int or_y = year_S;
-		int or_d = day_S;
-		int or_m = numOfmonth;
-		/// 结束保留
+		int or_m = 0;
+		for (int i = 0; i < 10; i++) {
+			if (sm == sm_stirng[i]) {
+				or_m = i;
+				break;
+			}
+		}
+		///结束原月份
+
+		int numOfm = 0; //代表当前在第几个月,并且以下代码numofm都会表示真实月份
+
+		if (n >= 0) {
+			if (leep) {
+				if (sm == "SIST") {
+					numOfm = (y - digit_sum(y)) % 9 + 1;
+					numOfm++;
+				}
+				else {
+					int judge = (y - digit_sum(y)) % 9 + 1;
+					for (int i = 0; i < 9; i++) {
+						if (sm == sm_stirng[i]) {
+							numOfm = i;
+							break;
+						}
+					}
+					numOfm++; // 符合真正月份
+					if (numOfm > judge) {
+						numOfm++;
+					}
+				}
+				numOfm += n;
+				if (numOfm > 10) {
+					pass_year(1);
+					numOfm -= 10;
+				}
+				while (true)
+				{
+					leep = scheak_leepyear(year_S);
+					if (leep) {
+						if (numOfm <= 10) {
+							break;
+						}
+						else
+						{
+							numOfm -= 10;
+							pass_year(1);
+						}
+					}
+					else
+					{
+						if (numOfm <= 9) {
+							break;
+						}
+						else
+						{
+							pass_year(1);
+							numOfm -= 9;
+						}
+					}
+				}
+				// 处理一年以内
+				leep = scheak_leepyear(year_S);
+				if (leep) {
+					int judge = (year_S - digit_sum(year_S)) % 9 + 1;
+					if (numOfm > judge + 1) {
+						month_S = (char*)month_char[numOfm - 2];
+					}
+					else if (numOfm == judge + 1)
+					{
+						month_S = (char*)month_char[9];
+					}
+					else
+					{
+						month_S = (char*)month_char[numOfm - 1];
+					}
+				}
+				else
+				{
+					month_S = (char*)month_char[numOfm - 1];
+				}
+			}
+			else
+			{
+				for (int i = 0; i < 9; i++) {
+					if (sm == sm_stirng[i]) {
+						numOfm = i;
+						break;
+					}
+				}
+				numOfm++; // 符合真正月份
+				numOfm += n;
+				if (numOfm > 9) {
+					pass_year(1);
+					numOfm -= 9;
+				}
+				while (true)
+				{
+					leep = scheak_leepyear(year_S);
+					if (leep) {
+						if (numOfm <= 10) {
+							break;
+						}
+						else
+						{
+							numOfm -= 10;
+							pass_year(1);
+						}
+					}
+					else
+					{
+						if (numOfm <= 9) {
+							break;
+						}
+						else
+						{
+							pass_year(1);
+							numOfm -= 9;
+						}
+					}
+				}
+				// 处理一年以内
+				leep = scheak_leepyear(year_S);
+				if (leep) {
+					int judge = (year_S - digit_sum(year_S)) % 9 + 1;
+					if (numOfm > judge + 1) {
+						month_S = (char*)month_char[numOfm - 2];
+					}
+					else if (numOfm == judge + 1)
+					{
+						month_S = (char*)month_char[9];
+					}
+					else
+					{
+						month_S = (char*)month_char[numOfm - 1];
+					}
+				}
+				else
+				{
+					month_S = (char*)month_char[numOfm - 1];
+				}
+			}
+		}
+		else
+			{
+			if (leep) {
+				int judge = (y - digit_sum(y)) % 9 + 1;
+				if (sm == "SIST") {
+					numOfm = judge;
+					numOfm++;
+				}
+				else {
+					for (int i = 0; i < 9; i++) {
+						if (sm == sm_stirng[i]) {
+							numOfm = i;
+							break;
+						}
+					}
+					numOfm++; // 符合真正月份
+					if (numOfm > judge) {
+						numOfm++;
+					}
+				}
+				numOfm += n;
+				if (numOfm >= 1) {
+					if (numOfm > judge + 1) {
+						month_S = (char*)month_char[numOfm - 2];
+					}
+					else if (numOfm == judge + 1) {
+						month_S = (char*)month_char[9];
+					}
+					else {
+						month_S = (char*)month_char[numOfm - 1];
+					}
+				}
+				else {
+
+					while (true) {
+						pass_year(-1);
+						leep = scheak_leepyear(year_S);
+						if (leep) {
+							numOfm += 10;
+
+						}
+						else {
+							numOfm += 9;
+						}
+						if (numOfm > 0) {
+							break;
+						}
+					}
 
 
+					// 处理一年以内
+					leep = scheak_leepyear(year_S);
+					if (leep) {
+						int judge = (year_S - digit_sum(year_S)) % 9 + 1;
+						if (numOfm > judge + 1) {
+							month_S = (char*)month_char[numOfm - 2];
+						}
+						else if (numOfm == judge + 1)
+						{
+							month_S = (char*)month_char[9];
+						}
+						else
+						{
+							month_S = (char*)month_char[numOfm - 1];
+						}
+					}
+					else
+					{
+						month_S = (char*)month_char[numOfm - 1];
+					}
+
+				}
+
+			}
+			else
+			{
+
+				for (int i = 0; i < 9; i++) {
+					if (sm == sm_stirng[i]) {
+						numOfm = i;
+						break;
+					}
+				}
+				numOfm++; // 符合真正月份
+				numOfm += n;
+				if (numOfm >= 1) {
+					month_S = (char*)month_char[numOfm - 1];
+				}
+				else
+				{
+					while (true) {
+						pass_year(-1);
+						leep = scheak_leepyear(year_S);
+						if (leep) {
+							numOfm += 10;
+
+						}
+						else {
+							numOfm += 9;
+						}
+						if (numOfm > 0) {
+							break;
+						}
+					}
 
 
+					// 处理一年以内
+					leep = scheak_leepyear(year_S);
+					if (leep) {
+						int judge = (year_S - digit_sum(year_S)) % 9 + 1;
+						if (numOfm > judge + 1) {
+							month_S = (char*)month_char[numOfm - 2];
+						}
+						else if (numOfm == judge + 1)
+						{
+							month_S = (char*)month_char[9];
+						}
+						else
+						{
+							month_S = (char*)month_char[numOfm - 1];
+						}
+					}
+					else
+					{
+						month_S = (char*)month_char[numOfm - 1];
+					}
 
+				
+				}
 
+			}
 
+		}
+		
+		if (baocuo_year == 0) {
+			day_S = 1;
+			cout << year_S << ' ' << *month_S << *(month_S + 1)  << ' ' << day_S << endl;
+			//cout << year_S << ' ' << *month_S << ' ' << day_S << endl;
+			return true;
+		}
+		else
+		{
+			baocuo_year = 0;
+			year_S = or_y;
+			month_S = (char*)month_char[or_m];
+			//cout << year_S << ' ' << *month_S << *(month_S + 1) << ' ' << day_S << endl;
+			return false;
+		}
 
 	}
 
 	bool pass_year(int n) {
 		char *month_char[] = { (char*)"Sist",(char*)"Spst",(char*)"Slst",(char*)"Sem",(char*)"Sca",(char*)"Ims",(char*)"Ihuman",(char*)"Siais",(char*)"Ih" };
-		
-
 		int or_y = year_S;
 		year_S += n;
-		if (year_S <= 999999 && year_S >= 1) {
+		if (year_S <= 1000362 && year_S >= 1) {
 			month_S = (char*)month_char[0];
 			day_S = 1;
+			//cout << year_S << ' ' << *month_S << *(month_S + 1) << ' '<< day_S << endl;
 			return true;
 		}
 		else
 		{
 			year_S = or_y;
-			//cout << year_S << ' ' << *month_S << *(month_S + 1) << *(month_S + 2) << ' ' << day_S << ' ' << endl;
+			baocuo_year = baocuo_year + 1;
+			//cout << year_S << ' ' << *month_S << *(month_S + 1) << ' ' << day_S << endl;
 			return false;
 		}
 	}
@@ -2582,20 +2870,22 @@ public:
 //APPEND BEGIN
 
 
-// Use this main function
+ //Use this main function
 int main()
 {
 	int year, day, n;
 	std::string calendar, f;
 	char month[10];
 
-	std::cin >> f;
+	calendar = "S";
+	//std::cin >> f;
 	std::cin >> year >> month >> day;
 	Shanghaitech date(year, month, day);
 	Shanghaitech* S = &date;
 	Gregorian* G = &date;
-	std::cin >> calendar;
-	std::cin >> f;
+	//std::cin >> calendar;
+	//std::cin >> f;
+	f = "pass_year";
 	while (!std::cin.eof()) {
 		if (f == "pass_day") {
 			std::cin >> n;
@@ -2633,10 +2923,10 @@ int main()
 			std::cin >> year >> month >> day;
 			if (calendar == "G") G->go_to(year, month, day); else S->go_to(year, month, day);
 		}
-		calendar = "";
-		f = "";
-		std::cin >> calendar;
-		std::cin >> f;
+		//calendar = "";
+		//f = "";
+		//std::cin >> calendar;
+		//std::cin >> f;
 	}
 	return 0;
 }
