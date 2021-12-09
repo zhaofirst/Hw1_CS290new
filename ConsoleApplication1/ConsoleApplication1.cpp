@@ -2496,6 +2496,59 @@ public:
 
 
 
+	// 含有参数的print_month 为了给Print_year调用
+	void me_print_month(int year,char *month) {
+
+		printf("%-36s\n", month);
+		cout << "┌────┬────┬────┬────┬────┬────┬────┐" << endl;
+		cout << "│ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│" << endl;
+		cout << "├────┼────┼────┼────┼────┼────┼────┤" << endl;
+
+
+
+		int week = ScalTotalday(year, month, 1) % 7;	//用int输出第一天是周几
+		int endDay = sendDay(year, month); // 输出这个月的一共有多少天
+
+
+		cout << "│";
+		for (int j = 0; j < week; j++) {
+			cout << hzifu[42 - 1];
+		}
+
+		for (int i = 0; i < 48 - week; i++) { //49代表有49个格子
+			if ((i + week + 1) % 7 == 0) {
+				if (i >= endDay) {
+					cout << hzifu[42 - 1];
+				}
+				else {
+					cout << hzifu[i];
+
+				}
+				cout << endl;
+				cout << "├────┼────┼────┼────┼────┼────┼────┤" << endl;
+				cout << "│";
+			}
+			else
+			{
+				if (i >= endDay) {
+					cout << hzifu[42 - 1];
+				}
+				else
+				{
+					cout << hzifu[i];
+				}
+
+			}
+		}
+		cout << hzifu[41] << endl;
+		cout << "└────┴────┴────┴────┴────┴────┴────┘" << endl;
+
+
+
+
+	}
+
+
 	/// end Mine
 
 
@@ -2563,64 +2616,4167 @@ public:
 
 
 	}
+	bool go_to(int year, char* month, int day) {
+		if (year <= 1000362 && year >= 1) {
+			year_S = year;
+			month_S = month;
+			day_S = day;
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	
+	}
+
+
 
 	void print_year() {
 		char *month_char[18] = { (char*)"Sist",(char*)"Spst",(char*)"Slst",(char*)"Sem",(char*)"Sca",(char*)"Ims",(char*)"Ihuman",(char*)"Siais",(char*)"Ih",(char*)"SIST" ,(char*)"SPST",(char*)"SLST",(char*)"SEM",(char*)"SCA",(char*)"IMS",(char*)"IHUMAN",(char*)"SIAIS",(char*)"IH" };
 
+		int week_month1 = ScalTotalday(year_S, month_char[0], 1) % 7;	//用int输出第一天是周几
+		int endDay_month1 = sendDay(year_S, month_char[0]); // 输出这个月的一共有多少天
+		int week_month2 = ScalTotalday(year_S, month_char[1], 1) % 7;
+		int endDay_month2 = sendDay(year_S, month_char[1]);
+		int week_month3 = ScalTotalday(year_S, month_char[2], 1) % 7;
+		int endDay_month3 = sendDay(year_S, month_char[2]);
+
+
+		int week_month4 = ScalTotalday(year_S, month_char[3], 1) % 7;
+		int endDay_month4 = sendDay(year_S, month_char[3]);
+		int week_month5 = ScalTotalday(year_S, month_char[4], 1) % 7;
+		int endDay_month5 = sendDay(year_S, month_char[4]);
+		int week_month6 = ScalTotalday(year_S, month_char[5], 1) % 7;
+		int endDay_month6 = sendDay(year_S, month_char[5]);
+
+
+
+		int week_month7 = ScalTotalday(year_S, month_char[6], 1) % 7;
+		int endDay_month7 = sendDay(year_S, month_char[6]);
+
+		int week_month8 = ScalTotalday(year_S, month_char[7], 1) % 7;
+		int endDay_month8 = sendDay(year_S, month_char[7]);
+		int week_month9 = ScalTotalday(year_S, month_char[8], 1) % 7;
+		int endDay_month9 = sendDay(year_S, month_char[8]);
+
+
+
+		// 为了给case9使用
+		int endDay = sendDay(year_S, month_char[8]); // 输出这个月的一共有多少天
+		//
 
 		bool leep = scheak_leepyear(year_S);
 		if (leep) {
-			int run_month  = (year_S - digit_sum(year_S)) % 9 + 1;
+			int run_month = (year_S - digit_sum(year_S)) % 9 + 1;
+			int i_f = 0;
+			int i_s = 0;
+			int i_t = 0;
+
+			int leep_weekday1 = ScalTotalday(year_S, month_char[run_month + 9], 1) % 7;
+
 			switch (run_month)
 			{
+
 			case 1:
+#pragma region 1 3 				
 				cout << "Sist                                 SIST                                 Spst                                " << endl;
 				cout << "┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐" << endl;
 				cout << "│ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│" << endl;
 				cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
 
 
+				/// 前三个月	
+				for (int i = 0; i < 147; ) {
+					// 第一个月
+
+					if (i < 21) {
+						cout << "│";
+						for (int j = 0; j < week_month1; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_f < 49 - week_month1) {
+						if ((i_f + week_month1 + 1) % 7 == 0) {
+							if (i_f >= endDay_month1) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_f];
+								i++;
+								cout << ' ';
+							}
+							i_f++;
+							break;
+						}
+						else
+						{
+							if (i_f >= endDay_month1) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_f];
+								i++;
+							}
+						}
+						i_f++;
+					}
+
+					//第二个月
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < leep_weekday1; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_s < 49 - leep_weekday1) {
+
+						if ((i_s + leep_weekday1 + 1) % 7 == 0) {
+							if (i_s >= endDay_month1) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_s];
+								i++;
+								cout << ' ';
+							}
+							i_s++;
+							break;
+						}
+						else
+						{
+							if (i_s >= endDay_month1) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_s];
+								i++;
+							}
+						}
+						i_s++;
+					}
+
+					//第三个月  	
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < week_month2; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+						}
+					}
+
+					while (i_t < 49 - week_month2) {
+
+						if ((i_t + week_month2 + 1) % 7 == 0) {
+							if (i_t >= endDay_month2) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else {
+								cout << hzifu[i_t];
+								i++;
+							}
+							cout << endl;
+							if (i == 147) {
+								cout << "└────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘" << endl;
+								break;
+							}
+
+							cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+							cout << "│";
+							i_t++;
+							break;
+						}
+						else
+						{
+							if (i_t >= endDay_month2) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_t];
+								i++;
+							}
+						}
+						i_t++;
+					}
+				}
+
+#pragma endregion
+
+
+
+
+#pragma region 4 6
+				cout << "Slst                                 Sem                                  Sca                                 " << endl;
+				cout << "┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐" << endl;
+				cout << "│ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│" << endl;
+				cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+
+				i_f = 0;
+				i_s = 0;
+				i_t = 0;
+				for (int i = 0; i < 147; ) {
+					// 第一个月
+
+					if (i < 21) {
+						cout << "│";
+						for (int j = 0; j < week_month3; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_f < 49 - week_month3) {
+						if ((i_f + week_month3 + 1) % 7 == 0) {
+							if (i_f >= endDay_month3) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_f];
+								i++;
+								cout << ' ';
+							}
+							i_f++;
+							break;
+						}
+						else
+						{
+							if (i_f >= endDay_month3) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_f];
+								i++;
+							}
+						}
+						i_f++;
+					}
+
+					//第二个月
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < week_month4; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_s < 49 - week_month4) {
+
+						if ((i_s + week_month4 + 1) % 7 == 0) {
+							if (i_s >= endDay_month4) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_s];
+								i++;
+								cout << ' ';
+							}
+							i_s++;
+							break;
+						}
+						else
+						{
+							if (i_s >= endDay_month4) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_s];
+								i++;
+							}
+						}
+						i_s++;
+					}
+
+					//第三个月  	
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < week_month5; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+						}
+					}
+
+					while (i_t < 49 - week_month5) {
+
+						if ((i_t + week_month5 + 1) % 7 == 0) {
+							if (i_t >= endDay_month5) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else {
+								cout << hzifu[i_t];
+								i++;
+							}
+							cout << endl;
+							if (i == 147) {
+								cout << "└────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘" << endl;
+								break;
+							}
+
+							cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+							cout << "│";
+							i_t++;
+							break;
+						}
+						else
+						{
+							if (i_t >= endDay_month5) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_t];
+								i++;
+							}
+						}
+						i_t++;
+					}
+				}
+
+
+
+#pragma endregion
+
+
+
+
+#pragma region 7 9
+
+				cout << "Ims                                  Ihuman                               Siais                               " << endl;
+				cout << "┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐" << endl;
+				cout << "│ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│" << endl;
+				cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+
+				i_f = 0;
+				i_s = 0;
+				i_t = 0;
+
+
+				for (int i = 0; i < 147; ) {
+					// 第一个月
+
+					if (i < 21) {
+						cout << "│";
+						for (int j = 0; j < week_month6; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_f < 49 - week_month6) {
+						if ((i_f + week_month6 + 1) % 7 == 0) {
+							if (i_f >= endDay_month6) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_f];
+								i++;
+								cout << ' ';
+							}
+							i_f++;
+							break;
+						}
+						else
+						{
+							if (i_f >= endDay_month6) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_f];
+								i++;
+							}
+						}
+						i_f++;
+					}
+
+					//第二个月
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < week_month7; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_s < 49 - week_month7) {
+
+						if ((i_s + week_month7 + 1) % 7 == 0) {
+							if (i_s >= endDay_month7) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_s];
+								i++;
+								cout << ' ';
+							}
+							i_s++;
+							break;
+						}
+						else
+						{
+							if (i_s >= endDay_month7) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_s];
+								i++;
+							}
+						}
+						i_s++;
+					}
+
+					//第三个月  	
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < week_month8; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+						}
+					}
+
+					while (i_t < 49 - week_month8) {
+
+						if ((i_t + week_month8 + 1) % 7 == 0) {
+							if (i_t >= endDay_month8) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else {
+								cout << hzifu[i_t];
+								i++;
+							}
+							cout << endl;
+							if (i == 147) {
+								cout << "└────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘" << endl;
+								break;
+							}
+
+							cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+							cout << "│";
+							i_t++;
+							break;
+						}
+						else
+						{
+							if (i_t >= endDay_month8) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_t];
+								i++;
+							}
+						}
+						i_t++;
+					}
+				}
+
+#pragma endregion
+
+				me_print_month(year_S, month_char[8]);
+				break;
 			case 2:
+
+#pragma region 1 3 				
+				cout << "Sist                                 Spst                                 SPST                                " << endl;
+				cout << "┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐" << endl;
+				cout << "│ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│" << endl;
+				cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+
+
+				/// 前三个月	
+				for (int i = 0; i < 147; ) {
+					// 第一个月
+
+					if (i < 21) {
+						cout << "│";
+						for (int j = 0; j < week_month1; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_f < 49 - week_month1) {
+						if ((i_f + week_month1 + 1) % 7 == 0) {
+							if (i_f >= endDay_month1) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_f];
+								i++;
+								cout << ' ';
+							}
+							i_f++;
+							break;
+						}
+						else
+						{
+							if (i_f >= endDay_month1) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_f];
+								i++;
+							}
+						}
+						i_f++;
+					}
+
+					//第二个月
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < week_month2; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_s < 49 - week_month2) {
+
+						if ((i_s + week_month2 + 1) % 7 == 0) {
+							if (i_s >= endDay_month2) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_s];
+								i++;
+								cout << ' ';
+							}
+							i_s++;
+							break;
+						}
+						else
+						{
+							if (i_s >= endDay_month2) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_s];
+								i++;
+							}
+						}
+						i_s++;
+					}
+
+					//第三个月  	
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < leep_weekday1; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+						}
+					}
+
+					while (i_t < 49 - leep_weekday1) {
+
+						if ((i_t + leep_weekday1 + 1) % 7 == 0) {
+							if (i_t >= endDay_month2) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else {
+								cout << hzifu[i_t];
+								i++;
+							}
+							cout << endl;
+							if (i == 147) {
+								cout << "└────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘" << endl;
+								break;
+							}
+
+							cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+							cout << "│";
+							i_t++;
+							break;
+						}
+						else
+						{
+							if (i_t >= endDay_month2) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_t];
+								i++;
+							}
+						}
+						i_t++;
+					}
+				}
+
+#pragma endregion
+
+
+
+
+#pragma region 4 6
+				cout << "Slst                                 Sem                                  Sca                                 " << endl;
+				cout << "┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐" << endl;
+				cout << "│ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│" << endl;
+				cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+
+				i_f = 0;
+				i_s = 0;
+				i_t = 0;
+				for (int i = 0; i < 147; ) {
+					// 第一个月
+
+					if (i < 21) {
+						cout << "│";
+						for (int j = 0; j < week_month3; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_f < 49 - week_month3) {
+						if ((i_f + week_month3 + 1) % 7 == 0) {
+							if (i_f >= endDay_month3) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_f];
+								i++;
+								cout << ' ';
+							}
+							i_f++;
+							break;
+						}
+						else
+						{
+							if (i_f >= endDay_month3) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_f];
+								i++;
+							}
+						}
+						i_f++;
+					}
+
+					//第二个月
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < week_month4; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_s < 49 - week_month4) {
+
+						if ((i_s + week_month4 + 1) % 7 == 0) {
+							if (i_s >= endDay_month4) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_s];
+								i++;
+								cout << ' ';
+							}
+							i_s++;
+							break;
+						}
+						else
+						{
+							if (i_s >= endDay_month4) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_s];
+								i++;
+							}
+						}
+						i_s++;
+					}
+
+					//第三个月  	
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < week_month5; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+						}
+					}
+
+					while (i_t < 49 - week_month5) {
+
+						if ((i_t + week_month5 + 1) % 7 == 0) {
+							if (i_t >= endDay_month5) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else {
+								cout << hzifu[i_t];
+								i++;
+							}
+							cout << endl;
+							if (i == 147) {
+								cout << "└────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘" << endl;
+								break;
+							}
+
+							cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+							cout << "│";
+							i_t++;
+							break;
+						}
+						else
+						{
+							if (i_t >= endDay_month5) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_t];
+								i++;
+							}
+						}
+						i_t++;
+					}
+				}
+
+
+
+#pragma endregion
+
+
+
+
+#pragma region 7 9
+
+				cout << "Ims                                  Ihuman                               Siais                               " << endl;
+				cout << "┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐" << endl;
+				cout << "│ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│" << endl;
+				cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+
+				i_f = 0;
+				i_s = 0;
+				i_t = 0;
+
+
+				for (int i = 0; i < 147; ) {
+					// 第一个月
+
+					if (i < 21) {
+						cout << "│";
+						for (int j = 0; j < week_month6; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_f < 49 - week_month6) {
+						if ((i_f + week_month6 + 1) % 7 == 0) {
+							if (i_f >= endDay_month6) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_f];
+								i++;
+								cout << ' ';
+							}
+							i_f++;
+							break;
+						}
+						else
+						{
+							if (i_f >= endDay_month6) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_f];
+								i++;
+							}
+						}
+						i_f++;
+					}
+
+					//第二个月
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < week_month7; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_s < 49 - week_month7) {
+
+						if ((i_s + week_month7 + 1) % 7 == 0) {
+							if (i_s >= endDay_month7) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_s];
+								i++;
+								cout << ' ';
+							}
+							i_s++;
+							break;
+						}
+						else
+						{
+							if (i_s >= endDay_month7) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_s];
+								i++;
+							}
+						}
+						i_s++;
+					}
+
+					//第三个月  	
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < week_month8; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+						}
+					}
+
+					while (i_t < 49 - week_month8) {
+
+						if ((i_t + week_month8 + 1) % 7 == 0) {
+							if (i_t >= endDay_month8) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else {
+								cout << hzifu[i_t];
+								i++;
+							}
+							cout << endl;
+							if (i == 147) {
+								cout << "└────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘" << endl;
+								break;
+							}
+
+							cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+							cout << "│";
+							i_t++;
+							break;
+						}
+						else
+						{
+							if (i_t >= endDay_month8) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_t];
+								i++;
+							}
+						}
+						i_t++;
+					}
+				}
+
+#pragma endregion
+
+				me_print_month(year_S, month_char[8]);
+				break;
+
+
 			case 3:
+
+#pragma region 1 3
+				cout << "Sist                                 Spst                                 Slst                                " << endl;
+				cout << "┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐" << endl;
+				cout << "│ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│" << endl;
+				cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+
+				for (int i = 0; i < 147; ) {
+					// 第一个月
+
+					if (i < 21) {
+						cout << "│";
+						for (int j = 0; j < week_month1; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_f < 49 - week_month1) {
+						if ((i_f + week_month1 + 1) % 7 == 0) {
+							if (i_f >= endDay_month1) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_f];
+								i++;
+								cout << ' ';
+							}
+							i_f++;
+							break;
+						}
+						else
+						{
+							if (i_f >= endDay_month1) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_f];
+								i++;
+							}
+						}
+						i_f++;
+					}
+
+					//第二个月
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < week_month2; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_s < 49 - week_month2) {
+
+						if ((i_s + week_month2 + 1) % 7 == 0) {
+							if (i_s >= endDay_month2) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_s];
+								i++;
+								cout << ' ';
+							}
+							i_s++;
+							break;
+						}
+						else
+						{
+							if (i_s >= endDay_month2) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_s];
+								i++;
+							}
+						}
+						i_s++;
+					}
+
+					//第三个月  	
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < week_month3; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+						}
+					}
+
+					while (i_t < 49 - week_month3) {
+
+						if ((i_t + week_month3 + 1) % 7 == 0) {
+							if (i_t >= endDay_month3) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else {
+								cout << hzifu[i_t];
+								i++;
+							}
+							cout << endl;
+							if (i == 147) {
+								cout << "└────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘" << endl;
+								break;
+							}
+
+							cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+							cout << "│";
+							i_t++;
+							break;
+						}
+						else
+						{
+							if (i_t >= endDay_month3) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_t];
+								i++;
+							}
+						}
+						i_t++;
+					}
+				}
+
+
+#pragma endregion
+
+
+#pragma region 4 6
+				cout << "SLST                                 Sem                                  Sca                                 " << endl;
+				cout << "┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐" << endl;
+				cout << "│ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│" << endl;
+				cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+
+				i_f = 0;
+				i_s = 0;
+				i_t = 0;
+				for (int i = 0; i < 147; ) {
+					// 第一个月
+
+					if (i < 21) {
+						cout << "│";
+						for (int j = 0; j < leep_weekday1; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_f < 49 - leep_weekday1) {
+						if ((i_f + leep_weekday1 + 1) % 7 == 0) {
+							if (i_f >= endDay_month3) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_f];
+								i++;
+								cout << ' ';
+							}
+							i_f++;
+							break;
+						}
+						else
+						{
+							if (i_f >= endDay_month3) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_f];
+								i++;
+							}
+						}
+						i_f++;
+					}
+
+					//第二个月
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < week_month4; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_s < 49 - week_month4) {
+
+						if ((i_s + week_month4 + 1) % 7 == 0) {
+							if (i_s >= endDay_month4) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_s];
+								i++;
+								cout << ' ';
+							}
+							i_s++;
+							break;
+						}
+						else
+						{
+							if (i_s >= endDay_month4) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_s];
+								i++;
+							}
+						}
+						i_s++;
+					}
+
+					//第三个月  	
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < week_month5; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+						}
+					}
+
+					while (i_t < 49 - week_month5) {
+
+						if ((i_t + week_month5 + 1) % 7 == 0) {
+							if (i_t >= endDay_month5) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else {
+								cout << hzifu[i_t];
+								i++;
+							}
+							cout << endl;
+							if (i == 147) {
+								cout << "└────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘" << endl;
+								break;
+							}
+
+							cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+							cout << "│";
+							i_t++;
+							break;
+						}
+						else
+						{
+							if (i_t >= endDay_month5) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_t];
+								i++;
+							}
+						}
+						i_t++;
+					}
+				}
+
+
+
+#pragma endregion
+
+
+
+
+#pragma region 7 9
+
+				cout << "Ims                                  Ihuman                               Siais                               " << endl;
+				cout << "┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐" << endl;
+				cout << "│ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│" << endl;
+				cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+
+				i_f = 0;
+				i_s = 0;
+				i_t = 0;
+
+
+				for (int i = 0; i < 147; ) {
+					// 第一个月
+
+					if (i < 21) {
+						cout << "│";
+						for (int j = 0; j < week_month6; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_f < 49 - week_month6) {
+						if ((i_f + week_month6 + 1) % 7 == 0) {
+							if (i_f >= endDay_month6) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_f];
+								i++;
+								cout << ' ';
+							}
+							i_f++;
+							break;
+						}
+						else
+						{
+							if (i_f >= endDay_month6) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_f];
+								i++;
+							}
+						}
+						i_f++;
+					}
+
+					//第二个月
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < week_month7; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_s < 49 - week_month7) {
+
+						if ((i_s + week_month7 + 1) % 7 == 0) {
+							if (i_s >= endDay_month7) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_s];
+								i++;
+								cout << ' ';
+							}
+							i_s++;
+							break;
+						}
+						else
+						{
+							if (i_s >= endDay_month7) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_s];
+								i++;
+							}
+						}
+						i_s++;
+					}
+
+					//第三个月  	
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < week_month8; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+						}
+					}
+
+					while (i_t < 49 - week_month8) {
+
+						if ((i_t + week_month8 + 1) % 7 == 0) {
+							if (i_t >= endDay_month8) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else {
+								cout << hzifu[i_t];
+								i++;
+							}
+							cout << endl;
+							if (i == 147) {
+								cout << "└────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘" << endl;
+								break;
+							}
+
+							cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+							cout << "│";
+							i_t++;
+							break;
+						}
+						else
+						{
+							if (i_t >= endDay_month8) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_t];
+								i++;
+							}
+						}
+						i_t++;
+					}
+				}
+
+#pragma endregion
+
+				me_print_month(year_S, month_char[8]);
+				break;
+
+
 			case 4:
+
+#pragma region 1 3
+				cout << "Sist                                 Spst                                 Slst                                " << endl;
+				cout << "┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐" << endl;
+				cout << "│ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│" << endl;
+				cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+
+				for (int i = 0; i < 147; ) {
+					// 第一个月
+
+					if (i < 21) {
+						cout << "│";
+						for (int j = 0; j < week_month1; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_f < 49 - week_month1) {
+						if ((i_f + week_month1 + 1) % 7 == 0) {
+							if (i_f >= endDay_month1) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_f];
+								i++;
+								cout << ' ';
+							}
+							i_f++;
+							break;
+						}
+						else
+						{
+							if (i_f >= endDay_month1) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_f];
+								i++;
+							}
+						}
+						i_f++;
+					}
+
+					//第二个月
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < week_month2; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_s < 49 - week_month2) {
+
+						if ((i_s + week_month2 + 1) % 7 == 0) {
+							if (i_s >= endDay_month2) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_s];
+								i++;
+								cout << ' ';
+							}
+							i_s++;
+							break;
+						}
+						else
+						{
+							if (i_s >= endDay_month2) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_s];
+								i++;
+							}
+						}
+						i_s++;
+					}
+
+					//第三个月  	
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < week_month3; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+						}
+					}
+
+					while (i_t < 49 - week_month3) {
+
+						if ((i_t + week_month3 + 1) % 7 == 0) {
+							if (i_t >= endDay_month3) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else {
+								cout << hzifu[i_t];
+								i++;
+							}
+							cout << endl;
+							if (i == 147) {
+								cout << "└────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘" << endl;
+								break;
+							}
+
+							cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+							cout << "│";
+							i_t++;
+							break;
+						}
+						else
+						{
+							if (i_t >= endDay_month3) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_t];
+								i++;
+							}
+						}
+						i_t++;
+					}
+				}
+
+
+#pragma endregion
+
+
+#pragma region 4 6
+				cout << "Sem                                  SEM                                  Sca                                 " << endl;
+				cout << "┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐" << endl;
+				cout << "│ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│" << endl;
+				cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+
+				i_f = 0;
+				i_s = 0;
+				i_t = 0;
+				for (int i = 0; i < 147; ) {
+					// 第一个月
+
+					if (i < 21) {
+						cout << "│";
+						for (int j = 0; j < week_month4; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_f < 49 - week_month4) {
+						if ((i_f + week_month4 + 1) % 7 == 0) {
+							if (i_f >= endDay_month4) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_f];
+								i++;
+								cout << ' ';
+							}
+							i_f++;
+							break;
+						}
+						else
+						{
+							if (i_f >= endDay_month4) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_f];
+								i++;
+							}
+						}
+						i_f++;
+					}
+					//第二个月
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < leep_weekday1; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_s < 49 - leep_weekday1) {
+
+						if ((i_s + leep_weekday1 + 1) % 7 == 0) {
+							if (i_s >= endDay_month4) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_s];
+								i++;
+								cout << ' ';
+							}
+							i_s++;
+							break;
+						}
+						else
+						{
+							if (i_s >= endDay_month4) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_s];
+								i++;
+							}
+						}
+						i_s++;
+					}
+
+					//第三个月  	
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < week_month5; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+						}
+					}
+
+					while (i_t < 49 - week_month5) {
+
+						if ((i_t + week_month5 + 1) % 7 == 0) {
+							if (i_t >= endDay_month5) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else {
+								cout << hzifu[i_t];
+								i++;
+							}
+							cout << endl;
+							if (i == 147) {
+								cout << "└────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘" << endl;
+								break;
+							}
+
+							cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+							cout << "│";
+							i_t++;
+							break;
+						}
+						else
+						{
+							if (i_t >= endDay_month5) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_t];
+								i++;
+							}
+						}
+						i_t++;
+					}
+				}
+
+
+
+#pragma endregion
+
+
+
+
+#pragma region 7 9
+
+				cout << "Ims                                  Ihuman                               Siais                               " << endl;
+				cout << "┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐" << endl;
+				cout << "│ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│" << endl;
+				cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+
+				i_f = 0;
+				i_s = 0;
+				i_t = 0;
+
+
+				for (int i = 0; i < 147; ) {
+					// 第一个月
+
+					if (i < 21) {
+						cout << "│";
+						for (int j = 0; j < week_month6; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_f < 49 - week_month6) {
+						if ((i_f + week_month6 + 1) % 7 == 0) {
+							if (i_f >= endDay_month6) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_f];
+								i++;
+								cout << ' ';
+							}
+							i_f++;
+							break;
+						}
+						else
+						{
+							if (i_f >= endDay_month6) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_f];
+								i++;
+							}
+						}
+						i_f++;
+					}
+
+					//第二个月
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < week_month7; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_s < 49 - week_month7) {
+
+						if ((i_s + week_month7 + 1) % 7 == 0) {
+							if (i_s >= endDay_month7) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_s];
+								i++;
+								cout << ' ';
+							}
+							i_s++;
+							break;
+						}
+						else
+						{
+							if (i_s >= endDay_month7) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_s];
+								i++;
+							}
+						}
+						i_s++;
+					}
+
+					//第三个月  	
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < week_month8; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+						}
+					}
+
+					while (i_t < 49 - week_month8) {
+
+						if ((i_t + week_month8 + 1) % 7 == 0) {
+							if (i_t >= endDay_month8) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else {
+								cout << hzifu[i_t];
+								i++;
+							}
+							cout << endl;
+							if (i == 147) {
+								cout << "└────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘" << endl;
+								break;
+							}
+
+							cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+							cout << "│";
+							i_t++;
+							break;
+						}
+						else
+						{
+							if (i_t >= endDay_month8) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_t];
+								i++;
+							}
+						}
+						i_t++;
+					}
+				}
+
+#pragma endregion
+
+				me_print_month(year_S, month_char[8]);
+				break;
+
+
+
+
+
 			case 5:
+
+#pragma region 1 3
+				cout << "Sist                                 Spst                                 Slst                                " << endl;
+				cout << "┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐" << endl;
+				cout << "│ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│" << endl;
+				cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+
+				for (int i = 0; i < 147; ) {
+					// 第一个月
+
+					if (i < 21) {
+						cout << "│";
+						for (int j = 0; j < week_month1; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_f < 49 - week_month1) {
+						if ((i_f + week_month1 + 1) % 7 == 0) {
+							if (i_f >= endDay_month1) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_f];
+								i++;
+								cout << ' ';
+							}
+							i_f++;
+							break;
+						}
+						else
+						{
+							if (i_f >= endDay_month1) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_f];
+								i++;
+							}
+						}
+						i_f++;
+					}
+
+					//第二个月
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < week_month2; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_s < 49 - week_month2) {
+
+						if ((i_s + week_month2 + 1) % 7 == 0) {
+							if (i_s >= endDay_month2) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_s];
+								i++;
+								cout << ' ';
+							}
+							i_s++;
+							break;
+						}
+						else
+						{
+							if (i_s >= endDay_month2) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_s];
+								i++;
+							}
+						}
+						i_s++;
+					}
+
+					//第三个月  	
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < week_month3; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+						}
+					}
+
+					while (i_t < 49 - week_month3) {
+
+						if ((i_t + week_month3 + 1) % 7 == 0) {
+							if (i_t >= endDay_month3) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else {
+								cout << hzifu[i_t];
+								i++;
+							}
+							cout << endl;
+							if (i == 147) {
+								cout << "└────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘" << endl;
+								break;
+							}
+
+							cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+							cout << "│";
+							i_t++;
+							break;
+						}
+						else
+						{
+							if (i_t >= endDay_month3) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_t];
+								i++;
+							}
+						}
+						i_t++;
+					}
+				}
+
+
+#pragma endregion
+
+
+#pragma region 4 6
+				cout << "Sem                                  Sca                                  SCA                                 " << endl;
+				cout << "┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐" << endl;
+				cout << "│ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│" << endl;
+				cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+
+				i_f = 0;
+				i_s = 0;
+				i_t = 0;
+				for (int i = 0; i < 147; ) {
+					// 第一个月
+
+					if (i < 21) {
+						cout << "│";
+						for (int j = 0; j < week_month4; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_f < 49 - week_month4) {
+						if ((i_f + week_month4 + 1) % 7 == 0) {
+							if (i_f >= endDay_month4) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_f];
+								i++;
+								cout << ' ';
+							}
+							i_f++;
+							break;
+						}
+						else
+						{
+							if (i_f >= endDay_month4) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_f];
+								i++;
+							}
+						}
+						i_f++;
+					}
+					//第二个月
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < week_month5; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_s < 49 - week_month5) {
+
+						if ((i_s + week_month5 + 1) % 7 == 0) {
+							if (i_s >= endDay_month5) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_s];
+								i++;
+								cout << ' ';
+							}
+							i_s++;
+							break;
+						}
+						else
+						{
+							if (i_s >= endDay_month5) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_s];
+								i++;
+							}
+						}
+						i_s++;
+					}
+
+
+					//第三个月  	
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < leep_weekday1; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+						}
+					}
+
+					while (i_t < 49 - leep_weekday1) {
+
+						if ((i_t + leep_weekday1 + 1) % 7 == 0) {
+							if (i_t >= endDay_month5) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else {
+								cout << hzifu[i_t];
+								i++;
+							}
+							cout << endl;
+							if (i == 147) {
+								cout << "└────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘" << endl;
+								break;
+							}
+
+							cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+							cout << "│";
+							i_t++;
+							break;
+						}
+						else
+						{
+							if (i_t >= endDay_month5) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_t];
+								i++;
+							}
+						}
+						i_t++;
+					}
+				}
+
+
+
+#pragma endregion
+
+
+
+
+#pragma region 7 9
+
+				cout << "Ims                                  Ihuman                               Siais                               " << endl;
+				cout << "┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐" << endl;
+				cout << "│ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│" << endl;
+				cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+
+				i_f = 0;
+				i_s = 0;
+				i_t = 0;
+
+
+				for (int i = 0; i < 147; ) {
+					// 第一个月
+
+					if (i < 21) {
+						cout << "│";
+						for (int j = 0; j < week_month6; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_f < 49 - week_month6) {
+						if ((i_f + week_month6 + 1) % 7 == 0) {
+							if (i_f >= endDay_month6) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_f];
+								i++;
+								cout << ' ';
+							}
+							i_f++;
+							break;
+						}
+						else
+						{
+							if (i_f >= endDay_month6) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_f];
+								i++;
+							}
+						}
+						i_f++;
+					}
+
+					//第二个月
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < week_month7; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_s < 49 - week_month7) {
+
+						if ((i_s + week_month7 + 1) % 7 == 0) {
+							if (i_s >= endDay_month7) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_s];
+								i++;
+								cout << ' ';
+							}
+							i_s++;
+							break;
+						}
+						else
+						{
+							if (i_s >= endDay_month7) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_s];
+								i++;
+							}
+						}
+						i_s++;
+					}
+
+					//第三个月  	
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < week_month8; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+						}
+					}
+
+					while (i_t < 49 - week_month8) {
+
+						if ((i_t + week_month8 + 1) % 7 == 0) {
+							if (i_t >= endDay_month8) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else {
+								cout << hzifu[i_t];
+								i++;
+							}
+							cout << endl;
+							if (i == 147) {
+								cout << "└────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘" << endl;
+								break;
+							}
+
+							cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+							cout << "│";
+							i_t++;
+							break;
+						}
+						else
+						{
+							if (i_t >= endDay_month8) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_t];
+								i++;
+							}
+						}
+						i_t++;
+					}
+				}
+
+#pragma endregion
+
+				me_print_month(year_S, month_char[8]);
+				break;
+
+
+
+
 			case 6:
+
+#pragma region 1 3
+				cout << "Sist                                 Spst                                 Slst                                " << endl;
+				cout << "┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐" << endl;
+				cout << "│ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│" << endl;
+				cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+
+				for (int i = 0; i < 147; ) {
+					// 第一个月
+
+					if (i < 21) {
+						cout << "│";
+						for (int j = 0; j < week_month1; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_f < 49 - week_month1) {
+						if ((i_f + week_month1 + 1) % 7 == 0) {
+							if (i_f >= endDay_month1) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_f];
+								i++;
+								cout << ' ';
+							}
+							i_f++;
+							break;
+						}
+						else
+						{
+							if (i_f >= endDay_month1) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_f];
+								i++;
+							}
+						}
+						i_f++;
+					}
+
+					//第二个月
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < week_month2; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_s < 49 - week_month2) {
+
+						if ((i_s + week_month2 + 1) % 7 == 0) {
+							if (i_s >= endDay_month2) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_s];
+								i++;
+								cout << ' ';
+							}
+							i_s++;
+							break;
+						}
+						else
+						{
+							if (i_s >= endDay_month2) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_s];
+								i++;
+							}
+						}
+						i_s++;
+					}
+
+					//第三个月  	
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < week_month3; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+						}
+					}
+
+					while (i_t < 49 - week_month3) {
+
+						if ((i_t + week_month3 + 1) % 7 == 0) {
+							if (i_t >= endDay_month3) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else {
+								cout << hzifu[i_t];
+								i++;
+							}
+							cout << endl;
+							if (i == 147) {
+								cout << "└────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘" << endl;
+								break;
+							}
+
+							cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+							cout << "│";
+							i_t++;
+							break;
+						}
+						else
+						{
+							if (i_t >= endDay_month3) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_t];
+								i++;
+							}
+						}
+						i_t++;
+					}
+				}
+
+
+#pragma endregion
+
+#pragma region 4 6
+				cout << "Sem                                  Sca                                  Ims                                 " << endl;
+				cout << "┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐" << endl;
+				cout << "│ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│" << endl;
+				cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+
+				i_f = 0;
+				i_s = 0;
+				i_t = 0;
+				for (int i = 0; i < 147; ) {
+					// 第一个月
+
+					if (i < 21) {
+						cout << "│";
+						for (int j = 0; j < week_month4; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_f < 49 - week_month4) {
+						if ((i_f + week_month4 + 1) % 7 == 0) {
+							if (i_f >= endDay_month4) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_f];
+								i++;
+								cout << ' ';
+							}
+							i_f++;
+							break;
+						}
+						else
+						{
+							if (i_f >= endDay_month4) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_f];
+								i++;
+							}
+						}
+						i_f++;
+					}
+
+					//第二个月
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < week_month5; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_s < 49 - week_month5) {
+
+						if ((i_s + week_month5 + 1) % 7 == 0) {
+							if (i_s >= endDay_month5) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_s];
+								i++;
+								cout << ' ';
+							}
+							i_s++;
+							break;
+						}
+						else
+						{
+							if (i_s >= endDay_month5) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_s];
+								i++;
+							}
+						}
+						i_s++;
+					}
+
+					//第三个月  	
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < week_month6; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+						}
+					}
+
+					while (i_t < 49 - week_month6) {
+
+						if ((i_t + week_month6 + 1) % 7 == 0) {
+							if (i_t >= endDay_month6) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else {
+								cout << hzifu[i_t];
+								i++;
+							}
+							cout << endl;
+							if (i == 147) {
+								cout << "└────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘" << endl;
+								break;
+							}
+
+							cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+							cout << "│";
+							i_t++;
+							break;
+						}
+						else
+						{
+							if (i_t >= endDay_month6) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_t];
+								i++;
+							}
+						}
+						i_t++;
+					}
+				}
+
+
+
+#pragma endregion
+
+
+#pragma region 7 9
+
+				cout << "IMS                                  Ihuman                               Siais                               " << endl;
+				cout << "┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐" << endl;
+				cout << "│ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│" << endl;
+				cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+
+				i_f = 0;
+				i_s = 0;
+				i_t = 0;
+
+
+				for (int i = 0; i < 147; ) {
+					// 第一个月
+
+					if (i < 21) {
+						cout << "│";
+						for (int j = 0; j < leep_weekday1; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_f < 49 - leep_weekday1) {
+						if ((i_f + leep_weekday1 + 1) % 7 == 0) {
+							if (i_f >= endDay_month6) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_f];
+								i++;
+								cout << ' ';
+							}
+							i_f++;
+							break;
+						}
+						else
+						{
+							if (i_f >= endDay_month6) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_f];
+								i++;
+							}
+						}
+						i_f++;
+					}
+
+					//第二个月
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < week_month7; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_s < 49 - week_month7) {
+
+						if ((i_s + week_month7 + 1) % 7 == 0) {
+							if (i_s >= endDay_month7) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_s];
+								i++;
+								cout << ' ';
+							}
+							i_s++;
+							break;
+						}
+						else
+						{
+							if (i_s >= endDay_month7) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_s];
+								i++;
+							}
+						}
+						i_s++;
+					}
+
+					//第三个月  	
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < week_month8; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+						}
+					}
+
+					while (i_t < 49 - week_month8) {
+
+						if ((i_t + week_month8 + 1) % 7 == 0) {
+							if (i_t >= endDay_month8) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else {
+								cout << hzifu[i_t];
+								i++;
+							}
+							cout << endl;
+							if (i == 147) {
+								cout << "└────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘" << endl;
+								break;
+							}
+
+							cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+							cout << "│";
+							i_t++;
+							break;
+						}
+						else
+						{
+							if (i_t >= endDay_month8) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_t];
+								i++;
+							}
+						}
+						i_t++;
+					}
+				}
+
+#pragma endregion
+
+				me_print_month(year_S, month_char[8]);
+				break;
+
+
 			case 7:
+
+#pragma region 1 3
+				cout << "Sist                                 Spst                                 Slst                                " << endl;
+				cout << "┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐" << endl;
+				cout << "│ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│" << endl;
+				cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+
+				for (int i = 0; i < 147; ) {
+					// 第一个月
+
+					if (i < 21) {
+						cout << "│";
+						for (int j = 0; j < week_month1; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_f < 49 - week_month1) {
+						if ((i_f + week_month1 + 1) % 7 == 0) {
+							if (i_f >= endDay_month1) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_f];
+								i++;
+								cout << ' ';
+							}
+							i_f++;
+							break;
+						}
+						else
+						{
+							if (i_f >= endDay_month1) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_f];
+								i++;
+							}
+						}
+						i_f++;
+					}
+
+					//第二个月
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < week_month2; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_s < 49 - week_month2) {
+
+						if ((i_s + week_month2 + 1) % 7 == 0) {
+							if (i_s >= endDay_month2) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_s];
+								i++;
+								cout << ' ';
+							}
+							i_s++;
+							break;
+						}
+						else
+						{
+							if (i_s >= endDay_month2) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_s];
+								i++;
+							}
+						}
+						i_s++;
+					}
+
+					//第三个月  	
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < week_month3; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+						}
+					}
+
+					while (i_t < 49 - week_month3) {
+
+						if ((i_t + week_month3 + 1) % 7 == 0) {
+							if (i_t >= endDay_month3) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else {
+								cout << hzifu[i_t];
+								i++;
+							}
+							cout << endl;
+							if (i == 147) {
+								cout << "└────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘" << endl;
+								break;
+							}
+
+							cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+							cout << "│";
+							i_t++;
+							break;
+						}
+						else
+						{
+							if (i_t >= endDay_month3) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_t];
+								i++;
+							}
+						}
+						i_t++;
+					}
+				}
+
+
+#pragma endregion
+
+#pragma region 4 6
+				cout << "Sem                                  Sca                                  Ims                                 " << endl;
+				cout << "┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐" << endl;
+				cout << "│ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│" << endl;
+				cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+
+				i_f = 0;
+				i_s = 0;
+				i_t = 0;
+				for (int i = 0; i < 147; ) {
+					// 第一个月
+
+					if (i < 21) {
+						cout << "│";
+						for (int j = 0; j < week_month4; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_f < 49 - week_month4) {
+						if ((i_f + week_month4 + 1) % 7 == 0) {
+							if (i_f >= endDay_month4) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_f];
+								i++;
+								cout << ' ';
+							}
+							i_f++;
+							break;
+						}
+						else
+						{
+							if (i_f >= endDay_month4) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_f];
+								i++;
+							}
+						}
+						i_f++;
+					}
+
+					//第二个月
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < week_month5; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_s < 49 - week_month5) {
+
+						if ((i_s + week_month5 + 1) % 7 == 0) {
+							if (i_s >= endDay_month5) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_s];
+								i++;
+								cout << ' ';
+							}
+							i_s++;
+							break;
+						}
+						else
+						{
+							if (i_s >= endDay_month5) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_s];
+								i++;
+							}
+						}
+						i_s++;
+					}
+
+					//第三个月  	
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < week_month6; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+						}
+					}
+
+					while (i_t < 49 - week_month6) {
+
+						if ((i_t + week_month6 + 1) % 7 == 0) {
+							if (i_t >= endDay_month6) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else {
+								cout << hzifu[i_t];
+								i++;
+							}
+							cout << endl;
+							if (i == 147) {
+								cout << "└────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘" << endl;
+								break;
+							}
+
+							cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+							cout << "│";
+							i_t++;
+							break;
+						}
+						else
+						{
+							if (i_t >= endDay_month6) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_t];
+								i++;
+							}
+						}
+						i_t++;
+					}
+				}
+
+
+
+#pragma endregion
+
+
+#pragma region 7 9
+
+				cout << "Ihuman                               IHUMAN                               Siais                               " << endl;
+				cout << "┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐" << endl;
+				cout << "│ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│" << endl;
+				cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+
+				i_f = 0;
+				i_s = 0;
+				i_t = 0;
+
+
+				for (int i = 0; i < 147; ) {
+					// 第一个月
+
+
+					if (i < 21) {
+						cout << "│";
+						for (int j = 0; j < week_month7; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_f < 49 - week_month7) {
+						if ((i_f + week_month7 + 1) % 7 == 0) {
+							if (i_f >= endDay_month7) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_f];
+								i++;
+								cout << ' ';
+							}
+							i_f++;
+							break;
+						}
+						else
+						{
+							if (i_f >= endDay_month7) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_f];
+								i++;
+							}
+						}
+						i_f++;
+					}
+					//第二个月
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < leep_weekday1; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_s < 49 - leep_weekday1) {
+
+						if ((i_s + leep_weekday1 + 1) % 7 == 0) {
+							if (i_s >= endDay_month7) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_s];
+								i++;
+								cout << ' ';
+							}
+							i_s++;
+							break;
+						}
+						else
+						{
+							if (i_s >= endDay_month7) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_s];
+								i++;
+							}
+						}
+						i_s++;
+					}
+
+					//第三个月  	
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < week_month8; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+						}
+					}
+
+					while (i_t < 49 - week_month8) {
+
+						if ((i_t + week_month8 + 1) % 7 == 0) {
+							if (i_t >= endDay_month8) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else {
+								cout << hzifu[i_t];
+								i++;
+							}
+							cout << endl;
+							if (i == 147) {
+								cout << "└────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘" << endl;
+								break;
+							}
+
+							cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+							cout << "│";
+							i_t++;
+							break;
+						}
+						else
+						{
+							if (i_t >= endDay_month8) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_t];
+								i++;
+							}
+						}
+						i_t++;
+					}
+				}
+
+#pragma endregion
+
+				me_print_month(year_S, month_char[8]);
+				break;
+
+
+
+
 			case 8:
+
+#pragma region 1 3
+				cout << "Sist                                 Spst                                 Slst                                " << endl;
+				cout << "┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐" << endl;
+				cout << "│ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│" << endl;
+				cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+
+				for (int i = 0; i < 147; ) {
+					// 第一个月
+
+					if (i < 21) {
+						cout << "│";
+						for (int j = 0; j < week_month1; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_f < 49 - week_month1) {
+						if ((i_f + week_month1 + 1) % 7 == 0) {
+							if (i_f >= endDay_month1) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_f];
+								i++;
+								cout << ' ';
+							}
+							i_f++;
+							break;
+						}
+						else
+						{
+							if (i_f >= endDay_month1) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_f];
+								i++;
+							}
+						}
+						i_f++;
+					}
+
+					//第二个月
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < week_month2; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_s < 49 - week_month2) {
+
+						if ((i_s + week_month2 + 1) % 7 == 0) {
+							if (i_s >= endDay_month2) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_s];
+								i++;
+								cout << ' ';
+							}
+							i_s++;
+							break;
+						}
+						else
+						{
+							if (i_s >= endDay_month2) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_s];
+								i++;
+							}
+						}
+						i_s++;
+					}
+
+					//第三个月  	
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < week_month3; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+						}
+					}
+
+					while (i_t < 49 - week_month3) {
+
+						if ((i_t + week_month3 + 1) % 7 == 0) {
+							if (i_t >= endDay_month3) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else {
+								cout << hzifu[i_t];
+								i++;
+							}
+							cout << endl;
+							if (i == 147) {
+								cout << "└────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘" << endl;
+								break;
+							}
+
+							cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+							cout << "│";
+							i_t++;
+							break;
+						}
+						else
+						{
+							if (i_t >= endDay_month3) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_t];
+								i++;
+							}
+						}
+						i_t++;
+					}
+				}
+
+
+#pragma endregion
+
+#pragma region 4 6
+				cout << "Sem                                  Sca                                  Ims                                 " << endl;
+				cout << "┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐" << endl;
+				cout << "│ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│" << endl;
+				cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+
+				i_f = 0;
+				i_s = 0;
+				i_t = 0;
+				for (int i = 0; i < 147; ) {
+					// 第一个月
+
+					if (i < 21) {
+						cout << "│";
+						for (int j = 0; j < week_month4; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_f < 49 - week_month4) {
+						if ((i_f + week_month4 + 1) % 7 == 0) {
+							if (i_f >= endDay_month4) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_f];
+								i++;
+								cout << ' ';
+							}
+							i_f++;
+							break;
+						}
+						else
+						{
+							if (i_f >= endDay_month4) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_f];
+								i++;
+							}
+						}
+						i_f++;
+					}
+
+					//第二个月
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < week_month5; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_s < 49 - week_month5) {
+
+						if ((i_s + week_month5 + 1) % 7 == 0) {
+							if (i_s >= endDay_month5) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_s];
+								i++;
+								cout << ' ';
+							}
+							i_s++;
+							break;
+						}
+						else
+						{
+							if (i_s >= endDay_month5) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_s];
+								i++;
+							}
+						}
+						i_s++;
+					}
+
+					//第三个月  	
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < week_month6; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+						}
+					}
+
+					while (i_t < 49 - week_month6) {
+
+						if ((i_t + week_month6 + 1) % 7 == 0) {
+							if (i_t >= endDay_month6) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else {
+								cout << hzifu[i_t];
+								i++;
+							}
+							cout << endl;
+							if (i == 147) {
+								cout << "└────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘" << endl;
+								break;
+							}
+
+							cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+							cout << "│";
+							i_t++;
+							break;
+						}
+						else
+						{
+							if (i_t >= endDay_month6) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_t];
+								i++;
+							}
+						}
+						i_t++;
+					}
+				}
+
+
+
+#pragma endregion
+
+
+#pragma region 7 9
+
+				cout << "Ihuman                               Siais                                SIAIS                               " << endl;
+				cout << "┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐" << endl;
+				cout << "│ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│" << endl;
+				cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+
+				i_f = 0;
+				i_s = 0;
+				i_t = 0;
+
+
+				for (int i = 0; i < 147; ) {
+					// 第一个月
+
+
+					if (i < 21) {
+						cout << "│";
+						for (int j = 0; j < week_month7; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_f < 49 - week_month7) {
+						if ((i_f + week_month7 + 1) % 7 == 0) {
+							if (i_f >= endDay_month7) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_f];
+								i++;
+								cout << ' ';
+							}
+							i_f++;
+							break;
+						}
+						else
+						{
+							if (i_f >= endDay_month7) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_f];
+								i++;
+							}
+						}
+						i_f++;
+					}
+					//第二个月
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < week_month8; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_s < 49 - week_month8) {
+
+						if ((i_s + week_month8 + 1) % 7 == 0) {
+							if (i_s >= endDay_month8) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_s];
+								i++;
+								cout << ' ';
+							}
+							i_s++;
+							break;
+						}
+						else
+						{
+							if (i_s >= endDay_month8) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_s];
+								i++;
+							}
+						}
+						i_s++;
+					}
+
+					//第三个月  	
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < leep_weekday1; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+						}
+					}
+
+					while (i_t < 49 - leep_weekday1) {
+
+						if ((i_t + leep_weekday1 + 1) % 7 == 0) {
+							if (i_t >= endDay_month8) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else {
+								cout << hzifu[i_t];
+								i++;
+							}
+							cout << endl;
+							if (i == 147) {
+								cout << "└────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘" << endl;
+								break;
+							}
+
+							cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+							cout << "│";
+							i_t++;
+							break;
+						}
+						else
+						{
+							if (i_t >= endDay_month8) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_t];
+								i++;
+							}
+						}
+						i_t++;
+					}
+				}
+
+#pragma endregion
+
+				me_print_month(year_S, month_char[8]);
+				break;
+
+
+
 			case 9:
+
+#pragma region 1 3
+				cout << "Sist                                 Spst                                 Slst                                " << endl;
+				cout << "┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐" << endl;
+				cout << "│ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│" << endl;
+				cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+
+				for (int i = 0; i < 147; ) {
+					// 第一个月
+
+					if (i < 21) {
+						cout << "│";
+						for (int j = 0; j < week_month1; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_f < 49 - week_month1) {
+						if ((i_f + week_month1 + 1) % 7 == 0) {
+							if (i_f >= endDay_month1) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_f];
+								i++;
+								cout << ' ';
+							}
+							i_f++;
+							break;
+						}
+						else
+						{
+							if (i_f >= endDay_month1) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_f];
+								i++;
+							}
+						}
+						i_f++;
+					}
+
+					//第二个月
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < week_month2; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_s < 49 - week_month2) {
+
+						if ((i_s + week_month2 + 1) % 7 == 0) {
+							if (i_s >= endDay_month2) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_s];
+								i++;
+								cout << ' ';
+							}
+							i_s++;
+							break;
+						}
+						else
+						{
+							if (i_s >= endDay_month2) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_s];
+								i++;
+							}
+						}
+						i_s++;
+					}
+
+					//第三个月  	
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < week_month3; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+						}
+					}
+
+					while (i_t < 49 - week_month3) {
+
+						if ((i_t + week_month3 + 1) % 7 == 0) {
+							if (i_t >= endDay_month3) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else {
+								cout << hzifu[i_t];
+								i++;
+							}
+							cout << endl;
+							if (i == 147) {
+								cout << "└────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘" << endl;
+								break;
+							}
+
+							cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+							cout << "│";
+							i_t++;
+							break;
+						}
+						else
+						{
+							if (i_t >= endDay_month3) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_t];
+								i++;
+							}
+						}
+						i_t++;
+					}
+				}
+
+
+#pragma endregion
+
+#pragma region 4 6
+				cout << "Sem                                  Sca                                  Ims                                 " << endl;
+				cout << "┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐" << endl;
+				cout << "│ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│" << endl;
+				cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+
+				i_f = 0;
+				i_s = 0;
+				i_t = 0;
+				for (int i = 0; i < 147; ) {
+					// 第一个月
+
+					if (i < 21) {
+						cout << "│";
+						for (int j = 0; j < week_month4; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_f < 49 - week_month4) {
+						if ((i_f + week_month4 + 1) % 7 == 0) {
+							if (i_f >= endDay_month4) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_f];
+								i++;
+								cout << ' ';
+							}
+							i_f++;
+							break;
+						}
+						else
+						{
+							if (i_f >= endDay_month4) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_f];
+								i++;
+							}
+						}
+						i_f++;
+					}
+
+					//第二个月
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < week_month5; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_s < 49 - week_month5) {
+
+						if ((i_s + week_month5 + 1) % 7 == 0) {
+							if (i_s >= endDay_month5) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_s];
+								i++;
+								cout << ' ';
+							}
+							i_s++;
+							break;
+						}
+						else
+						{
+							if (i_s >= endDay_month5) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_s];
+								i++;
+							}
+						}
+						i_s++;
+					}
+
+					//第三个月  	
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < week_month6; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+						}
+					}
+
+					while (i_t < 49 - week_month6) {
+
+						if ((i_t + week_month6 + 1) % 7 == 0) {
+							if (i_t >= endDay_month6) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else {
+								cout << hzifu[i_t];
+								i++;
+							}
+							cout << endl;
+							if (i == 147) {
+								cout << "└────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘" << endl;
+								break;
+							}
+
+							cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+							cout << "│";
+							i_t++;
+							break;
+						}
+						else
+						{
+							if (i_t >= endDay_month6) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_t];
+								i++;
+							}
+						}
+						i_t++;
+					}
+				}
+
+
+
+#pragma endregion
+
+#pragma region 7 9
+
+				cout << "Ihuman                               Siais                                Ih                                  " << endl;
+				cout << "┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐ ┌────┬────┬────┬────┬────┬────┬────┐" << endl;
+				cout << "│ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│" << endl;
+				cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+
+				i_f = 0;
+				i_s = 0;
+				i_t = 0;
+
+
+				for (int i = 0; i < 147; ) {
+					// 第一个月
+
+					if (i < 21) {
+						cout << "│";
+						for (int j = 0; j < week_month7; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_f < 49 - week_month7) {
+						if ((i_f + week_month7 + 1) % 7 == 0) {
+							if (i_f >= endDay_month7) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_f];
+								i++;
+								cout << ' ';
+							}
+							i_f++;
+							break;
+						}
+						else
+						{
+							if (i_f >= endDay_month7) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_f];
+								i++;
+							}
+						}
+						i_f++;
+					}
+
+					//第二个月
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < week_month8; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+
+						}
+					}
+
+					while (i_s < 49 - week_month8) {
+
+						if ((i_s + week_month8 + 1) % 7 == 0) {
+							if (i_s >= endDay_month8) {
+								cout << hzifu[42 - 1];
+								i++;
+								cout << ' ';
+							}
+							else {
+								cout << hzifu[i_s];
+								i++;
+								cout << ' ';
+							}
+							i_s++;
+							break;
+						}
+						else
+						{
+							if (i_s >= endDay_month8) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_s];
+								i++;
+							}
+						}
+						i_s++;
+					}
+
+					//第三个月  	
+					cout << "│";
+					if (i < 21) {
+
+						for (int j = 0; j < week_month9; j++) {
+
+							cout << hzifu[42 - 1];
+							i++;
+						}
+					}
+
+					while (i_t < 49 - week_month9) {
+
+						if ((i_t + week_month9 + 1) % 7 == 0) {
+							if (i_t >= endDay_month9) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else {
+								cout << hzifu[i_t];
+								i++;
+							}
+							cout << endl;
+							if (i == 147) {
+								cout << "└────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘ └────┴────┴────┴────┴────┴────┴────┘" << endl;
+								break;
+							}
+
+							cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
+							cout << "│";
+							i_t++;
+							break;
+						}
+						else
+						{
+							if (i_t >= endDay_month9) {
+								cout << hzifu[42 - 1];
+								i++;
+							}
+							else
+							{
+								cout << hzifu[i_t];
+								i++;
+							}
+						}
+						i_t++;
+					}
+				}
+
+#pragma endregion
+
+				cout << "IH                                  " << endl;
+				cout << "┌────┬────┬────┬────┬────┬────┬────┐" << endl;
+				cout << "│ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│" << endl;
+				cout << "├────┼────┼────┼────┼────┼────┼────┤" << endl;
+
+
+
+				cout << "│";
+				for (int j = 0; j < leep_weekday1; j++) {
+					cout << hzifu[42 - 1];
+				}
+
+				for (int i = 0; i < 48 - leep_weekday1; i++) { //49代表有49个格子
+					if ((i + leep_weekday1 + 1) % 7 == 0) {
+						if (i >= endDay) {
+							cout << hzifu[42 - 1];
+						}
+						else {
+							cout << hzifu[i];
+
+						}
+						cout << endl;
+						cout << "├────┼────┼────┼────┼────┼────┼────┤" << endl;
+						cout << "│";
+					}
+					else
+					{
+						if (i >= endDay) {
+							cout << hzifu[42 - 1];
+						}
+						else
+						{
+							cout << hzifu[i];
+						}
+
+					}
+				}
+				cout << hzifu[41] << endl;
+				cout << "└────┴────┴────┴────┴────┴────┴────┘" << endl;
+				break;
+
 			default:
 				break;
 			}
-
-
-
 		}
 		else
 		{
-			int week_month1 = ScalTotalday(year_S,month_char[0] , 1) % 7;	//用int输出第一天是周几
-			int endDay_month1 = sendDay(year_S, month_char[0]); // 输出这个月的一共有多少天
-			int week_month2 = ScalTotalday(year_S, month_char[1], 1) % 7;	
-			int endDay_month2 = sendDay(year_S, month_char[1]); 
-			int week_month3 = ScalTotalday(year_S, month_char[2], 1) % 7;	
-			int endDay_month3 = sendDay(year_S, month_char[2]); 
-
-
-			int week_month4 = ScalTotalday(year_S, month_char[3], 1) % 7;
-			int endDay_month4 = sendDay(year_S, month_char[3]);
-			int week_month5 = ScalTotalday(year_S, month_char[4], 1) % 7;
-			int endDay_month5 = sendDay(year_S, month_char[4]);
-			int week_month6 = ScalTotalday(year_S, month_char[5], 1) % 7;
-			int endDay_month6 = sendDay(year_S, month_char[5]);
-
-
-
-			int week_month7 = ScalTotalday(year_S, month_char[6], 1) % 7;
-			int endDay_month7 = sendDay(year_S, month_char[6]);
-			int week_month8 = ScalTotalday(year_S, month_char[7], 1) % 7;
-			int endDay_month8 = sendDay(year_S, month_char[7]);
-			int week_month9 = ScalTotalday(year_S, month_char[8], 1) % 7;
-			int endDay_month9 = sendDay(year_S, month_char[8]);
-
 			int i_f = 0;
 			int i_s = 0;
 			int i_t = 0;
@@ -2630,7 +6786,7 @@ public:
 			cout << "│ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│ │ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│" << endl;
 			cout << "├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤ ├────┼────┼────┼────┼────┼────┼────┤" << endl;
 
-			for (int i = 0; i < 147; i++) {
+			for (int i = 0; i < 147; ) {
 				// 第一个月
 
 				if (i < 21) {
@@ -2777,7 +6933,7 @@ public:
 			i_f = 0;
 			i_s = 0;
 			i_t = 0;
-			for (int i = 0; i < 147; i++) {
+			for (int i = 0; i < 147; ) {
 				// 第一个月
 
 				if (i < 21) {
@@ -2928,7 +7084,7 @@ public:
 			i_t = 0;
 
 
-			for (int i = 0; i < 147; i++) {
+			for (int i = 0; i < 147; ) {
 				// 第一个月
 
 				if (i < 21) {
@@ -3068,11 +7224,11 @@ public:
 		}
 
 
-	
+
 
 	}
 
-
+	
 	bool pass_day(int n) {
 		char *month_char[18] = { (char*)"Sist",(char*)"Spst",(char*)"Slst",(char*)"Sem",(char*)"Sca",(char*)"Ims",(char*)"Ihuman",(char*)"Siais",(char*)"Ih",(char*)"SIST" ,(char*)"SPST",(char*)"SLST",(char*)"SEM",(char*)"SCA",(char*)"IMS",(char*)"IHUMAN",(char*)"SIAIS",(char*)"IH"};
 		
@@ -3439,7 +7595,7 @@ public:
 		
 		if (baocuo_year == 0) {
 			day_S = 1;
-			cout << year_S << ' ' << this->month_S  << ' ' << day_S << endl;
+			//cout << year_S << ' ' << this->month_S  << ' ' << day_S << endl;
 			//cout << year_S << ' ' << *month_S << ' ' << day_S << endl;
 			return true;
 		}
@@ -3449,7 +7605,7 @@ public:
 			baocuo_month++;
 			year_S = or_y;
 			month_S = (char*)month_char[or_m];
-			cout << year_S << ' ' << *month_S << *(month_S + 1) << ' ' << day_S << endl;
+			//cout << year_S << ' ' << *month_S << *(month_S + 1) << ' ' << day_S << endl;
 			return false;
 		}
 
