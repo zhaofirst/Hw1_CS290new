@@ -1274,6 +1274,7 @@ private:
 	int year_S;
 	char* month_S;
 	int day_S;
+	int baocuo_day = 0;
 	int baocuo_year = 0;
 	int baocuo_month = 0;
 public:
@@ -2489,8 +2490,9 @@ public:
 	//将计算出的总天数n返回成Shanghai的年月日
 	void DayToShangTechdate(int n) {
 		int thouYearLeft = SH_erfen(n); // 返回的是 一年的最后一天，没有check过
-		year_S = thouYearLeft;
-		int day_remain = n - S_day[thouYearLeft];
+		year_S = thouYearLeft*1000+1;
+		pass_year(0);
+		int day_remain = n - S_day[thouYearLeft-1]-1; //减去1是因为passday是从1开始的
 		pass_day(day_remain);
 	}
 
@@ -2616,21 +2618,6 @@ public:
 
 
 	}
-	bool go_to(int year, char* month, int day) {
-		if (year <= 1000362 && year >= 1) {
-			year_S = year;
-			month_S = month;
-			day_S = day;
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	
-	}
-
-
 
 	void print_year() {
 		char *month_char[18] = { (char*)"Sist",(char*)"Spst",(char*)"Slst",(char*)"Sem",(char*)"Sca",(char*)"Ims",(char*)"Ihuman",(char*)"Siais",(char*)"Ih",(char*)"SIST" ,(char*)"SPST",(char*)"SLST",(char*)"SEM",(char*)"SCA",(char*)"IMS",(char*)"IHUMAN",(char*)"SIAIS",(char*)"IH" };
@@ -7228,10 +7215,25 @@ public:
 
 	}
 
-	
+	bool go_to(int year, char* month, int day) {
+		if (year <= 1000362 && year >= 1) {
+			year_S = year;
+			month_S = month;
+			day_S = day;
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+
+	}
+
 	bool pass_day(int n) {
-		char *month_char[18] = { (char*)"Sist",(char*)"Spst",(char*)"Slst",(char*)"Sem",(char*)"Sca",(char*)"Ims",(char*)"Ihuman",(char*)"Siais",(char*)"Ih",(char*)"SIST" ,(char*)"SPST",(char*)"SLST",(char*)"SEM",(char*)"SCA",(char*)"IMS",(char*)"IHUMAN",(char*)"SIAIS",(char*)"IH"};
-		
+
+
+		char *month_char[18] = { (char*)"Sist",(char*)"Spst",(char*)"Slst",(char*)"Sem",(char*)"Sca",(char*)"Ims",(char*)"Ihuman",(char*)"Siais",(char*)"Ih",(char*)"SIST" ,(char*)"SPST",(char*)"SLST",(char*)"SEM",(char*)"SCA",(char*)"IMS",(char*)"IHUMAN",(char*)"SIAIS",(char*)"IH" };
+
 		//int totalDay = ScalTotalday(year_S, month_S, day_S);
 		string sm = month_S;
 		int y = year_S;
@@ -7252,41 +7254,62 @@ public:
 		int endDaying = 0;
 		int numOfm = 0; //代表当前在第几个月,并且以下代码numofm都会表示真实月份
 
-		if (n >= 0) {
-			endDaying = sendDay(year_S, month_S);
-			n += day_S;
-			if (n > endDaying) {
-				while (true)
-				{
-					pass_month(1);
-					n -= endDaying;
-					endDaying = sendDay(year_S, month_S);
-					if (n <= endDaying) {
-						break;
-					}
-				}
+
+		
+		if (n > 402000 || n<-40200) {// 处理超大数字
+			int totalday = n + ScalTotalday(year_S, month_S, day_S);
+			if (totalday >= 0 && totalday<=365241885) {
+				DayToShangTechdate(totalday);
 			}
-			day_S = n;
+			else
+			{
+				baocuo_day = 1;
+			}
+			
 		}
 		else
 		{
-			n += day_S;
-			if (n < 1) {
-				while (true)
-				{
-					pass_month(-1);
-					endDaying = sendDay(year_S, month_S);
-					n += endDaying;
-					if (n > 0) {
-						break;
+			if (n >= 0) {
+				endDaying = sendDay(year_S, month_S);
+				n += day_S;
+				if (n > endDaying) {
+					while (true)
+					{
+						pass_month(1);
+						n -= endDaying;
+						endDaying = sendDay(year_S, month_S);
+						if (n <= endDaying) {
+							break;
+						}
 					}
 				}
+				day_S = n;
 			}
-			day_S = n;
+			else
+			{
+				n += day_S;
+				if (n < 1) {
+					while (true)
+					{
+						pass_month(-1);
+						endDaying = sendDay(year_S, month_S);
+						n += endDaying;
+						if (n > 0) {
+							break;
+						}
+					}
+				}
+				day_S = n;
+			}
+
+
 		}
 
 
-		if (baocuo_month == 0) {
+
+	
+
+		if (baocuo_month == 0 && baocuo_day == 0) {
 			
 			//cout << year_S << ' ' << *month_S << *(month_S + 1) << ' ' << day_S << endl;
 			//cout << year_S << ' ' << *month_S << ' ' << day_S << endl;
@@ -7295,6 +7318,7 @@ public:
 		else
 		{
 			baocuo_month = 0;
+			baocuo_day = 0;
 			year_S = or_y;
 			day_S = or_d;
 			month_S = (char*)month_char[or_m];
