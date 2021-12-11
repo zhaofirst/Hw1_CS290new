@@ -12,7 +12,7 @@ public:
 	int year_G;
 	char* month_G;
 	int day_G;
-	
+
 	int GtotalDay = 0;
 
 	const string s_month[12] = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
@@ -24,22 +24,22 @@ public:
 " 30 │"," 31 │" ,"    │" };
 
 	// Function mine 
-	
-	
+
+
 	//计算过了多少天 1年1月3号是3天 
 	int gcaltotalDay(int y, char* m, int d) {
 
 		int shuzu[12] = { 31,28,31,30,31,30,31,31,30,31,30,31 };
 		int mnum = month_num(m); //月份
 		int sumresult = 0;
-		int dyear = (y-1)*365+ int((y - 1)/4)-int((y - 1)/100)+int((y - 1)/400)-int((y - 1)/4000);
+		int dyear = (y - 1) * 365 + int((y - 1) / 4) - int((y - 1) / 100) + int((y - 1) / 400) - int((y - 1) / 4000);
 
 		// 计算今年过了多少天 （算上当前天）
 		bool leepG = check_leapyear(y);
 		for (int i = 1; i < mnum; i++) {
-			sumresult += shuzu[i-1];
+			sumresult += shuzu[i - 1];
 		}
-		if (leepG && mnum>2) {
+		if (leepG && mnum > 2) {
 			sumresult += 1;
 		}
 		sumresult += dyear;
@@ -75,7 +75,91 @@ public:
 
 
 	//用于改变天数，不调用S历的更新
-	bool Gcal_pass_day(int num_days) {
+
+
+
+	//bool Gcal_pass_day(int n) {
+	//	char *month_char[] = { (char*)"Jan", (char*)"Feb", (char*)"Mar", (char*)"Apr", (char*)"May", (char*)"Jun", (char*)"Jul", (char*)"Aug", (char*)"Sep", (char*)"Oct", (char*)"Nov", (char*)"Dec" };
+	//	bool leapyear = check_leapyear(this->year_G);
+	//	int numOfmonth = month_num(this->month_G);
+	//	int endDay = monthEndDay(year_G, numOfmonth);
+	//	// 输出这个月的一共有多少天
+
+
+	//			/// 保留原始数据
+
+	//	int or_y = year_G;
+	//	int or_d = day_G;
+	//	int or_m = numOfmonth;
+	//	/// 结束保留
+
+
+	//	int y = year_G;
+	//	int m = numOfmonth;
+	//	int d = day_G;
+
+	//	n += day_G;
+
+	//	if (n > 0) {
+	//		if (n <= endDay) {
+	//			day_G = n;
+	//		}
+	//		else {
+	//			while (n > endDay) {
+	//				n -= endDay;
+	//				m += 1;
+	//				if (m > 12) {
+	//					y += 1;
+	//					m = 1;
+	//				}
+	//				endDay = monthEndDay(y, m);
+	//			}
+	//			year_G = y;
+	//			month_G = (char*)month_char[m - 1];
+	//			day_G = n;
+	//		}
+	//	}
+	//	else {
+	//		while (n < 1) {
+	//			m -= 1;
+	//			if (m < 1) {
+	//				m = 12;
+	//				y -= 1;
+	//			}
+	//			endDay = monthEndDay(y, m);
+	//			n += endDay;
+	//		}
+
+	//		year_G = y;
+	//		month_G = (char*)month_char[m - 1];
+	//		day_G = n;
+
+	//	}
+
+
+
+
+	//	if (year_G <= 999999 && year_G >= 1) {
+
+	//		return true;
+	//	}
+	//	else
+	//	{
+	//		year_G = or_y;
+	//		day_G = or_d;
+	//		month_G = (char*)month_char[or_m - 1];
+
+	//		//cout << year_G << ' ' << *month_G << *(month_G + 1) << *(month_G + 2) << ' ' << day_G << ' ' << endl;
+
+	//		return false;
+	//	}
+
+
+
+
+	//}
+
+	bool  Gcal_pass_day(int num_days) {
 		char *month_char[] = { (char*)"Jan", (char*)"Feb", (char*)"Mar", (char*)"Apr", (char*)"May", (char*)"Jun", (char*)"Jul", (char*)"Aug", (char*)"Sep", (char*)"Oct", (char*)"Nov", (char*)"Dec" };
 		bool leapyear = check_leapyear(this->year_G);
 		int numOfmonth = month_num(this->month_G);
@@ -154,7 +238,7 @@ public:
 					}
 
 
-				} while (n > mon[m]);
+				} while (n > (mon[m] + check_leapyear(y)*(m == 2)));
 				year_G = y;
 				month_G = (char*)month_char[m - 1];
 				day_G = n;
@@ -209,7 +293,6 @@ public:
 
 		if (year_G <= 999999 && year_G >= 1) {
 
-
 			return true;
 		}
 		else
@@ -228,7 +311,7 @@ public:
 
 	}
 
-	//
+	// 根据字符返回月份的数字
 	int month_num(char* month) {
 		int result = 999;
 
@@ -240,7 +323,7 @@ public:
 				break;
 			}
 		}
-	
+
 		return result;
 	}
 	string month_string(int num) {
@@ -290,7 +373,24 @@ public:
 		//cout << w << ' ' << y << ' ' << m << ' ' << day << ' ' << endl;
 		return result;
 	}
-
+	//计算当某月的总天数 月份输入为真实int
+	int monthEndDay(int y, int m) {
+		int result = 0;
+		int mon[13] = { 31,31,28,31,30,31,30,31,31,30,31,30,31 };
+		bool leep = check_leapyear(y);
+		if (leep) {
+			if (m == 2) {
+				result = 29;
+			}
+			else {
+				result = mon[m];
+			}
+		}
+		else {
+			result = mon[m];
+		}
+		return result;
+	}
 
 	bool check_leapyear(int year) {
 		// 0代表不是闰年 其他代表是闰年
@@ -328,13 +428,13 @@ public:
 		day_G = day;
 	};
 	void print_today() {
-		
-		cout << this->year_G << ' ' << this->month_G  << ' ' << this->day_G << endl;
+
+		cout << this->year_G << ' ' << this->month_G << ' ' << this->day_G << endl;
 	}
 
 	//print the date of today in Gregorian format by "yearmonthnday"
 	void print_month() {
-		cout << *month_G << *(month_G + 1) << *(month_G + 2) <<"                                 "<< endl;
+		cout << *month_G << *(month_G + 1) << *(month_G + 2) << "                                 " << endl;
 		cout << "┌────┬────┬────┬────┬────┬────┬────┐" << endl;
 		cout << "│ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│" << endl;
 		cout << "├────┼────┼────┼────┼────┼────┼────┤" << endl;
@@ -1142,7 +1242,8 @@ public:
 
 	}
 
-	bool pass_day(int num_days) {
+
+	bool  pass_day(int num_days) {
 		char *month_char[] = { (char*)"Jan", (char*)"Feb", (char*)"Mar", (char*)"Apr", (char*)"May", (char*)"Jun", (char*)"Jul", (char*)"Aug", (char*)"Sep", (char*)"Oct", (char*)"Nov", (char*)"Dec" };
 		bool leapyear = check_leapyear(this->year_G);
 		int numOfmonth = month_num(this->month_G);
@@ -1221,7 +1322,7 @@ public:
 					}
 
 
-				} while (n > mon[m]);
+				} while (n > (mon[m]+check_leapyear(y)*(m==2)));
 				year_G = y;
 				month_G = (char*)month_char[m - 1];
 				day_G = n;
@@ -1232,13 +1333,13 @@ public:
 			return true;
 		}
 		else {
-			if( int temp = n + d >= 1) {
+			if (int temp = n + d >= 1) {
 				day_G = n + d;
 			}
 			else
 			{
 				n += d;
-				while( -n >=mon[m-1])
+				while (-n >= mon[m - 1])
 				{
 					if (--m == 0) {
 						m = 12;
@@ -1266,7 +1367,7 @@ public:
 					n += mon[m];
 				}
 
-				month_G = (char*)month_char[m-1];
+				month_G = (char*)month_char[m - 1];
 				year_G = y;
 				day_G = n;
 
@@ -1275,7 +1376,6 @@ public:
 
 
 		if (year_G <= 999999 && year_G >= 1) {
-
 			GtotalDay = gcaltotalDay(year_G, month_G, day_G);
 			callback();
 			return true;
@@ -1295,6 +1395,8 @@ public:
 
 
 	}
+
+
 
 
 	bool pass_month(int num_months) {
@@ -1423,7 +1525,7 @@ public:
 	//a negative int.
 
 
-	
+
 
 	virtual void callback() {
 
@@ -1438,7 +1540,7 @@ public:
 
 
 class Shanghaitech :public Gregorian {
-//class Shanghaitech  {
+	//class Shanghaitech  {
 private:
 	int year_S;
 	char* month_S;
@@ -1451,7 +1553,7 @@ public:
 	int StotalDay = 0;
 	/// Variable
 	const string sm_stirng[9] = { "Sist","Spst","Slst","Sem","Sca","Ims","Ihuman","Siais","Ih" };
-	const string run_sm_string[18] = { "Sist","Spst","Slst","Sem","Sca","Ims","Ihuman","Siais","Ih","SIST" ,"SPST", 
+	const string run_sm_string[18] = { "Sist","Spst","Slst","Sem","Sca","Ims","Ihuman","Siais","Ih","SIST" ,"SPST",
 			"SLST","SEM","SCA","IMS","IHUMAN","SIAIS","IH" };
 	const string hzifu[42] = {
 " 01 │", " 02 │" ," 03 │",	" 04 │", " 05 │" ," 06 │",	" 07 │", " 08 │" ," 09 │"," 0A │", " 0B │", " 0C │" ,
@@ -11461,7 +11563,7 @@ public:
 ,365183094
 , 365219610, 365241885 };
 	/// Function Mine
-	
+
 	//二分法确定在哪个区间，并且返回左值
 	int SH_erfen(int day) {
 		int left = 0;
@@ -11500,7 +11602,7 @@ public:
 	}
 
 
-	string smonth_string(int year,int num) {
+	string smonth_string(int year, int num) {
 		return sm_stirng[num];
 	}
 
@@ -11545,7 +11647,7 @@ public:
 		int sum = 0;
 		bool leep = scheak_leepyear(y);
 		if (leep) {
-			int m = (y - digit_sum(y))% 9 + 1;
+			int m = (y - digit_sum(y)) % 9 + 1;
 			int d = 39 + (10 * y - m) % 3;
 			sum = 360 + d;
 		}
@@ -11565,7 +11667,7 @@ public:
 		bool leep = scheak_leepyear(y);
 		string mm = month;
 		// 计算从100*son_y年开始到今年过了多少天
-		for (int i = son_y * 100+1; i < y; i++) {
+		for (int i = son_y * 100 + 1; i < y; i++) {
 			syearday = SyearDay(i);
 			result += syearday;
 		}
@@ -11581,7 +11683,7 @@ public:
 
 		if (numOfm > 8) {
 			for (int i = 0; i < judge_initial; i++) {
-				result += 39 + (10 * y - i-1) % 3;
+				result += 39 + (10 * y - i - 1) % 3;
 			}
 			result += d;
 			return result;
@@ -11592,16 +11694,16 @@ public:
 			if (leep) {
 				int m = (y - digit_sum(y)) % 9 + 1;
 				if (numOfm > m) {
-					for (int i = 0; i < numOfm-1; i++) {
-						result += 39 + (10 * y - i-1) % 3;
+					for (int i = 0; i < numOfm - 1; i++) {
+						result += 39 + (10 * y - i - 1) % 3;
 					}
 					result += 39 + (10 * y - m) % 3; // 加上闰月的天数
 					result += d;
 					return result;
 				}
 				else {
-					for (int i = 0; i < numOfm-1; i++) {
-						result += 39 + (10 * y - i-1) % 3;
+					for (int i = 0; i < numOfm - 1; i++) {
+						result += 39 + (10 * y - i - 1) % 3;
 					}
 					result += d;
 					return result;
@@ -11610,7 +11712,7 @@ public:
 			}
 			else
 			{
-				for (int i = 0; i < numOfm-1; i++) {
+				for (int i = 0; i < numOfm - 1; i++) {
 					result += 39 + (10 * y - i - 1) % 3;
 				}
 				result += d;
@@ -11623,12 +11725,12 @@ public:
 	int ScalTotalday(int y, char* month, int d) {
 		int result = 0;
 		int son_y = int(y / 100);
-		int yushu_y = y%100;
+		int yushu_y = y % 100;
 		if (son_y == 0) {
 			result += Syinei_calday(y, month, d);
 			return result;
 		}
-		else if (y==1000361) 
+		else if (y == 1000361)
 		{
 			result += S_day[10003];
 			result += Syinei_calday(y, month, d);
@@ -11641,7 +11743,7 @@ public:
 			result += Syinei_calday(y, month, d);
 			return result;
 		}
-		
+
 	}
 
 
@@ -11662,9 +11764,9 @@ public:
 	//将计算出的总天数n返回成Shanghai的年月日
 	void DayToShangTechdate(int n) {
 		int hanYearLeft = SH_erfen(n); // 返回的是 一年的最后一天，没有check过
-		year_S = hanYearLeft*100+1;
+		year_S = hanYearLeft * 100 + 1;
 		Scal_pass_year(0);
-		int day_remain = n - S_day[hanYearLeft-1]-1; //减去1是因为passday是从1开始的
+		int day_remain = n - S_day[hanYearLeft - 1] - 1; //减去1是因为passday是从1开始的
 		Scal_pass_day(day_remain);
 	}
 
@@ -11696,7 +11798,7 @@ public:
 
 		if (n > 40200 || n < -40200) {// 处理超大数字
 			int totalday = n + ScalTotalday(year_S, month_S, day_S);
-			if (totalday >=1  && totalday <= 365241885) {
+			if (totalday >= 1 && totalday <= 365241885) {
 				DayToShangTechdate(totalday);
 			}
 			else
@@ -12088,7 +12190,7 @@ public:
 	}
 
 	// 含有参数的print_month 为了给Print_year调用
-	void me_print_month(int year,char *month) {
+	void me_print_month(int year, char *month) {
 
 		printf("%-36s\n", month);
 		cout << "┌────┬────┬────┬────┬────┬────┬────┐" << endl;
@@ -12146,8 +12248,8 @@ public:
 
 	/// Function HW
 
-	Shanghaitech(int year, char *month, int day):Gregorian(1, (char*)"Jan",  1) {
-	//Shanghaitech(int year, char *month, int day){
+	Shanghaitech(int year, char *month, int day) :Gregorian(1, (char*)"Jan", 1) {
+		//Shanghaitech(int year, char *month, int day){
 
 		year_S = year;
 		month_S = month;
@@ -12157,18 +12259,18 @@ public:
 	void print_today() {
 
 		cout << this->year_S << ' ' << this->month_S << ' ' << this->day_S << endl;
-	
+
 	}
 	void print_month() {
 
-		printf("%-36s\n",  this->month_S);
+		printf("%-36s\n", this->month_S);
 		cout << "┌────┬────┬────┬────┬────┬────┬────┐" << endl;
 		cout << "│ Sun│ Mon│Tues│ Wed│Thur│ Fri│ Sat│" << endl;
 		cout << "├────┼────┼────┼────┼────┼────┼────┤" << endl;
 
-		
 
-		int week = ScalTotalday(year_S, month_S,1)%7;	//用int输出第一天是周几
+
+		int week = ScalTotalday(year_S, month_S, 1) % 7;	//用int输出第一天是周几
 		int endDay = sendDay(year_S, month_S); // 输出这个月的一共有多少天
 
 
@@ -16806,9 +16908,9 @@ public:
 
 	}
 
-	bool go_to(int year, char* month, int day) {
+	bool go_to(int year, char* monthnew, int day) {
 
-		string sm = month;
+		string sm = monthnew;
 		bool month_judge = 1;
 		int mnum = 999;
 
@@ -16842,22 +16944,23 @@ public:
 				month_judge = 0;
 			}
 		}
-	
-		int numd = sendDay(year, month);
+
+		int numd = sendDay(year, monthnew);
 		if (year <= 1000362 && year >= 1) {
 			if (month_judge) {
 				if (day >= 1 && day <= numd) {
 					year_S = year;
-					month_S = month;
+					month_S = monthnew;
 					day_S = day;
-					int totalday_SforG = ScalTotalday(year, month, day);
+					int totalday_SforG = ScalTotalday(year, monthnew, day);
 					Gregorian::gdayToDate(totalday_SforG);
 					return true;
 				}
 				else {
 					return false;
 				}
-			}else{
+			}
+			else {
 				return false;
 			}
 		}
@@ -16870,7 +16973,7 @@ public:
 
 	bool pass_day(int n) {
 
-	
+
 		char *month_char[18] = { (char*)"Sist",(char*)"Spst",(char*)"Slst",(char*)"Sem",(char*)"Sca",(char*)"Ims",(char*)"Ihuman",(char*)"Siais",(char*)"Ih",(char*)"SIST" ,(char*)"SPST",(char*)"SLST",(char*)"SEM",(char*)"SCA",(char*)"IMS",(char*)"IHUMAN",(char*)"SIAIS",(char*)"IH" };
 
 		//int totalDay = ScalTotalday(year_S, month_S, day_S);
@@ -16894,17 +16997,17 @@ public:
 		int numOfm = 0; //代表当前在第几个月,并且以下代码numofm都会表示真实月份
 
 
-		
-		if (n > 40200 || n<-40200) {// 处理超大数字
+
+		if (n > 40200 || n < -40200) {// 处理超大数字
 			int totalday = n + ScalTotalday(year_S, month_S, day_S);
-			if (totalday >= 1 && totalday<=365241885) {
+			if (totalday >= 1 && totalday <= 365241885) {
 				DayToShangTechdate(totalday);
 			}
 			else
 			{
 				baocuo_day = 1;
 			}
-			
+
 		}
 		else
 		{
@@ -16948,10 +17051,10 @@ public:
 
 
 
-	
+
 
 		if (baocuo_month == 0 && baocuo_day == 0) {
-			
+
 			int totalday_SforG = ScalTotalday(year_S, month_S, day_S);
 			Gregorian::gdayToDate(totalday_SforG);
 			return true;
@@ -16968,7 +17071,7 @@ public:
 			//cout << year_S << ' ' << *month_S << *(month_S + 1) << ' ' << day_S << endl;
 			return false;
 		}
-		
+
 
 	}
 
@@ -16985,16 +17088,17 @@ public:
 		int y = year_S;
 		bool leep = scheak_leepyear(y);
 
-		///保存原来月份
+		///保存原来日期
 		int or_y = year_S;
 		int or_m = 0;
+		int or_d = day_S;
 		for (int i = 0; i < 18; i++) {
 			if (sm == run_sm_string[i]) {
 				or_m = i;
 				break;
 			}
 		}
-		///结束原月份
+		///结束保存
 
 		int numOfm = 0; //代表当前在第几个月,并且以下代码numofm都会表示真实月份
 
@@ -17275,6 +17379,7 @@ public:
 			baocuo_year = 0;
 			baocuo_month++;
 			year_S = or_y;
+			day_S = or_d;
 			month_S = (char*)month_char[or_m];
 			int totalday_SforG = ScalTotalday(year_S, month_S, day_S);
 			Gregorian::gdayToDate(totalday_SforG);
@@ -17286,7 +17391,21 @@ public:
 
 	bool pass_year(int n) {
 		char *month_char[] = { (char*)"Sist",(char*)"Spst",(char*)"Slst",(char*)"Sem",(char*)"Sca",(char*)"Ims",(char*)"Ihuman",(char*)"Siais",(char*)"Ih" };
+
+
+		string sm = month_S;
+		///保存原来日期
 		int or_y = year_S;
+		int or_m = 0;
+		int or_d = day_S;
+		for (int i = 0; i < 18; i++) {
+			if (sm == run_sm_string[i]) {
+				or_m = i;
+				break;
+			}
+		}
+		///结束保存
+
 		year_S += n;
 		if (year_S <= 1000362 && year_S >= 1) {
 			month_S = (char*)month_char[0];
@@ -17299,6 +17418,8 @@ public:
 		else
 		{
 			year_S = or_y;
+			day_S = or_d;
+			month_S = (char*)month_char[or_m];
 			baocuo_year = baocuo_year + 1;
 			int totalday_SforG = ScalTotalday(year_S, month_S, day_S);
 			Gregorian::gdayToDate(totalday_SforG);
@@ -17319,51 +17440,106 @@ public:
 //APPEND BEGIN
 
 
-// Use this main function
+
+
+
+//
+//
+//// //Use this main function
+//int main()
+//{
+//	int year, day, n;
+//	std::string calendar, f;
+//	char month[10];
+//	char newmonth[10];
+//	std::cin >> f;
+//	std::cin >> year >> month >> day;
+//	Shanghaitech date(year, month, day);
+//	Shanghaitech* S = &date;
+//	Gregorian* G = &date;
+//	std::cin >> calendar;
+//	std::cin >> f;
+//	while (!std::cin.eof()) {
+//		if (f == "pass_day") {
+//			std::cin >> n;
+//			if (calendar == "G") G->pass_day(n); else S->pass_day(n);
+//		}
+//		else if (f == "pass_month") {
+//			std::cin >> n;
+//			if (calendar == "G") G->pass_month(n); else S->pass_month(n);
+//		}
+//		else if (f == "pass_year") {
+//			std::cin >> n;
+//			if (calendar == "G") G->pass_year(n); else S->pass_year(n);
+//		}
+//		else if (f == "print_today") {
+//			if (calendar == "G") G->print_today(); else S->print_today();
+//		}
+//		else if (f == "print_month") {
+//			if (calendar == "G") G->print_month(); else S->print_month();
+//		}
+//		else if (f == "print_year") {
+//			if (calendar == "G") G->print_year(); else S->print_year();
+//		}
+//		else if (f == "go_to") {
+//			std::cin >> year >> newmonth >> day;
+//			if (calendar == "G") G->go_to(year, newmonth, day); else S->go_to(year, newmonth, day);
+//		}
+//		calendar = "";
+//		f = "";
+//		std::cin >> calendar;
+//		std::cin >> f;
+//	}
+//	return 0;
+//}
+////APPEND END
+//
+//
+
 int main()
 {
 	int year, day, n;
 	std::string calendar, f;
 	char month[10];
-
+	char newmonth[10];
 	std::cin >> f;
 	std::cin >> year >> month >> day;
 	Shanghaitech date(year, month, day);
 	Shanghaitech* S = &date;
 	Gregorian* G = &date;
-	std::cin >> calendar;
-	std::cin >> f;
+	calendar = "S";
 	while (!std::cin.eof()) {
-		if (f == "pass_day") {
+		if (f == "pd") {
 			std::cin >> n;
 			if (calendar == "G") G->pass_day(n); else S->pass_day(n);
 		}
-		else if (f == "pass_month") {
+		else if (f == "pm") {
 			std::cin >> n;
 			if (calendar == "G") G->pass_month(n); else S->pass_month(n);
 		}
-		else if (f == "pass_year") {
+		else if (f == "py") {
 			std::cin >> n;
 			if (calendar == "G") G->pass_year(n); else S->pass_year(n);
 		}
-		else if (f == "print_today") {
+		else if (f == "ppd") {
 			if (calendar == "G") G->print_today(); else S->print_today();
 		}
-		else if (f == "print_month") {
+		else if (f == "ppm") {
 			if (calendar == "G") G->print_month(); else S->print_month();
 		}
-		else if (f == "print_year") {
+		else if (f == "ppy") {
 			if (calendar == "G") G->print_year(); else S->print_year();
 		}
-		else if (f == "go_to") {
-			std::cin >> year >> month >> day;
-			if (calendar == "G") G->go_to(year, month, day); else S->go_to(year, month, day);
+		else if (f == "gt") {
+			std::cin >> year >> newmonth >> day;
+			if (calendar == "G") G->go_to(year, newmonth, day); else S->go_to(year, newmonth, day);
 		}
-		calendar = "";
+		S->print_today();
+		G->print_today();
+		//calendar = "";
 		f = "";
-		std::cin >> calendar;
+		//std::cin >> calendar;
 		std::cin >> f;
 	}
 	return 0;
 }
-//APPEND END
